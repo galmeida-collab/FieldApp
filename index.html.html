@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>African Enterprise - Frontline Stories</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#EA580C">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col justify-between antialiased selection:bg-orange-100 selection:text-orange-900 pb-20">
+
+  <!-- Top Header with Centred 'Mission Field Tool' -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
+    <div class="max-w-md mx-auto grid grid-cols-3 items-center">
+      <!-- Left: Logo -->
+      <div class="flex items-center justify-start">
+        <img src="AESA General Name Logo 2022.png" alt="AE Emblem" class="h-7 w-auto object-contain" onerror="this.parentElement.innerHTML='<span class=\'font-black text-orange-600 text-base\'>AE</span>'">
+      </div>
+
+      <!-- Centre: Mission Field Tool Title -->
+      <div class="text-center">
+        <h1 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Mission Field Tool</h1>
+      </div>
+
+      <!-- Right: Status Badge -->
+      <div class="flex items-center justify-end">
+        <div id="connStatus" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span>Online</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TAB 1: CAPTURE -->
+  <main id="tab-capture" class="max-w-md mx-auto w-full px-4 pt-3 space-y-4">
+    
+    <!-- Dynamic Hero Banner with Centred Large Title & Flanked Subtitle -->
+    <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-md min-h-[190px] flex flex-col justify-center items-center text-center">
+      <!-- Background Photo -->
+      <img 
+        src="hero.jpg" 
+        alt="Frontline Outreach" 
+        class="absolute inset-0 w-full h-full object-cover object-center"
+        onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80'"
+      >
+      
+      <!-- Brand Gradient Darkener Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 via-orange-900/60 to-black/35"></div>
+
+      <!-- Centred Content -->
+      <div class="relative z-10 w-full px-2 space-y-2.5">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-none text-white drop-shadow-md uppercase sm:normal-case">
+          Frontline Stories
+        </h2>
+        
+        <!-- Flanked Subtitle -->
+        <div class="flex items-center justify-center gap-2.5 w-full max-w-sm mx-auto">
+          <span class="h-[1.5px] flex-1 bg-gradient-to-r from-transparent via-orange-300/60 to-orange-200 rounded-full"></span>
+          <p class="text-xs sm:text-sm text-orange-100 font-semibold tracking-wide drop-shadow-xs whitespace-normal sm:whitespace-nowrap px-1">
+            Recording transformed lives across Africa
+          </p>
+          <span class="h-[1.5px] flex-1 bg-gradient-to-l from-transparent via-orange-300/60 to-orange-200 rounded-full"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: STORY DETAILS (Warm Orange Accent) -->
+    <div class="bg-white rounded-2xl border-2 border-orange-200/90 shadow-sm overflow-hidden">
+      <div class="bg-gradient-to-r from-orange-50 to-amber-50/50 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-orange-600 text-white text-xs font-black flex items-center justify-center shadow-xs">1</span>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Story Details</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-orange-700 bg-orange-100/80 px-2 py-0.5 rounded-md">General Info</span>
+      </div>
+      
+      <div class="p-4 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Person's Full Name</label>
+          <input type="text" id="personName" placeholder="e.g. Sipho Ndlovu" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Location / Field</label>
+            <input type="text" id="personLocation" placeholder="e.g. Soweto" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Reporter Name</label>
+            <input type="text" id="reporterName" placeholder="Your Name" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: TESTIMONY FOCUS & STORY (Charcoal Slate Accent #1E293B) -->
+    <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-sm overflow-hidden">
+      <div class="bg-gradient-to-r from-slate-100 to-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-[#1E293B] text-white text-xs font-black flex items-center justify-center shadow-xs">2</span>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-900">Testimony Narrative</h2>
+        </div>
+        <span class="text-[10px] font-bold text-slate-700 bg-slate-200/80 px-2 py-0.5 rounded-md">Heart of the Story</span>
+      </div>
+
+      <div class="p-4 space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-2">Key Themes (Tap to select)</label>
+          <div class="flex flex-wrap gap-2" id="tagList">
+            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Salvation</button>
+            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Recommitment</button>
+            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Healing</button>
+            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Reconciliation</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">1. Life Before Christ</label>
+          <textarea id="beforeLife" rows="2" placeholder="Background, struggles, or perspective prior to encounter..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-[#1E293B] transition-all resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">2. The Gospel Encounter</label>
+          <textarea id="encounter" rows="2" placeholder="What happened when the good news was shared?" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-[#1E293B] transition-all resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">3. How They Feel Now</label>
+          <textarea id="feelNow" rows="2" placeholder="New sense of hope, peace, transformation..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-[#1E293B] transition-all resize-none"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: MEDIA & SAVE (Emerald Green Accent) -->
+    <div class="bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm overflow-hidden">
+      <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3 border-b border-emerald-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs font-black flex items-center justify-center shadow-xs">3</span>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-emerald-950">Attach & Save</h2>
+        </div>
+        <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">Offline Store</span>
+      </div>
+
+      <div class="p-4 space-y-3.5">
+        <div class="border-2 border-dashed border-emerald-300/80 rounded-xl p-3 bg-emerald-50/30">
+          <label class="block text-xs font-bold text-slate-700 mb-1">Attach Field Photos</label>
+          <input type="file" id="mediaUpload" accept="image/*" multiple class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+        </div>
+
+        <button onclick="saveToOfflineCache()" class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          <span>Save Story Offline</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- TAB 2: CACHE -->
+  <main id="tab-cache" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
+    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm text-center space-y-3">
+      <!-- Archive Drawer Hero Icon -->
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 border border-orange-200/60 shadow-xs">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+          <path opacity="0.25" d="M4 3h16a2 2 0 012 2v3H2V5a2 2 0 012-2z"/>
+          <path d="M2 9v10a2 2 0 002 2h16a2 2 0 002-2V9H2zm13 5H9v-2h6v2z"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="text-base font-extrabold text-slate-900">Saved Offline on Device</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Stored safely until you connect to Wi-Fi</p>
+      </div>
+      <div class="py-2 bg-slate-50 rounded-xl border border-slate-100">
+        <span id="cacheCount" class="text-3xl font-black text-slate-900">0</span>
+        <span class="text-[11px] font-bold text-slate-500 block uppercase tracking-wider">Stories Pending Upload</span>
+      </div>
+      <button onclick="triggerSync()" class="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+        <span>Upload All (Wi-Fi)</span>
+      </button>
+    </div>
+
+    <div id="cachedItemsList" class="space-y-3"></div>
+  </main>
+
+  <!-- Footer Versioning -->
+  <footer class="py-4 text-center text-xs font-semibold text-slate-400">
+    African Enterprise South Africa • v1.0.0
+  </footer>
+
+  <!-- Bottom Navigation with Option B Solid Icons -->
+  <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40">
+    <div class="max-w-md mx-auto grid grid-cols-2 h-16">
+      
+      <!-- Capture Tab Button (Solid Reporter Mic / Field Journal) -->
+      <button onclick="switchTab('tab-capture', this)" class="nav-btn flex flex-col items-center justify-center text-orange-600 font-bold transition-all group">
+        <div class="p-1 rounded-xl transition-all group-active:scale-95">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a3 3 0 00-3 3v6a3 3 0 006 0V5a3 3 0 00-3-3z"/>
+            <path opacity="0.25" d="M19 10v1a7 7 0 01-14 0v-1H3v1a9 9 0 008 8.94V22h2v-2.06A9 9 0 0021 11v-1h-2z"/>
+          </svg>
+        </div>
+        <span class="text-[11px] font-bold mt-0.5 tracking-tight">Capture</span>
+      </button>
+
+      <!-- Cache Tab Button (Solid Archival Storage Drawer) -->
+      <button onclick="switchTab('tab-cache', this)" class="nav-btn flex flex-col items-center justify-center text-slate-400 font-semibold hover:text-slate-600 transition-all group">
+        <div class="p-1 rounded-xl transition-all group-active:scale-95">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path opacity="0.25" d="M4 3h16a2 2 0 012 2v3H2V5a2 2 0 012-2z"/>
+            <path d="M2 9v10a2 2 0 002 2h16a2 2 0 002-2V9H2zm13 5H9v-2h6v2z"/>
+          </svg>
+        </div>
+        <span class="text-[11px] font-bold mt-0.5 tracking-tight">Cache</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <script>
+    function switchTab(tabId, el) {
+      document.getElementById('tab-capture').classList.add('hidden');
+      document.getElementById('tab-cache').classList.add('hidden');
+      document.getElementById(tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-orange-600', 'font-bold');
+        btn.classList.add('text-slate-400', 'font-semibold');
+      });
+      el.classList.add('text-orange-600', 'font-bold');
+      el.classList.remove('text-slate-400', 'font-semibold');
+
+      if (tabId === 'tab-cache') renderCache();
+    }
+
+    function toggleTag(pill) {
+      pill.classList.toggle('bg-[#1E293B]');
+      pill.classList.toggle('text-white');
+      pill.classList.toggle('border-[#0F172A]');
+      pill.classList.toggle('active');
+    }
+
+    function getCache() {
+      return JSON.parse(localStorage.getItem('ae_testimonies') || '[]');
+    }
+
+    function saveToOfflineCache() {
+      const person = document.getElementById('personName').value.trim();
+      if (!person) { alert('Please enter a name.'); return; }
+
+      const activeTags = Array.from(document.querySelectorAll('.tag-pill.active')).map(p => p.innerText.replace('+ ', ''));
+
+      const entry = {
+        id: Date.now(),
+        person: person,
+        location: document.getElementById('personLocation').value.trim(),
+        reporter: document.getElementById('reporterName').value.trim(),
+        tags: activeTags,
+        beforeLife: document.getElementById('beforeLife').value.trim(),
+        whatHappened: document.getElementById('encounter').value.trim(),
+        nowFeelings: document.getElementById('feelNow').value.trim(),
+        savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      const items = getCache();
+      items.push(entry);
+      localStorage.setItem('ae_testimonies', JSON.stringify(items));
+
+      // Reset fields
+      document.getElementById('personName').value = '';
+      document.getElementById('personLocation').value = '';
+      document.getElementById('beforeLife').value = '';
+      document.getElementById('encounter').value = '';
+      document.getElementById('feelNow').value = '';
+      document.querySelectorAll('.tag-pill.active').forEach(p => toggleTag(p));
+
+      alert('Testimony saved offline! View or sync in the Cache tab.');
+    }
+
+    function renderCache() {
+      const items = getCache();
+      document.getElementById('cacheCount').innerText = items.length;
+      const list = document.getElementById('cachedItemsList');
+      list.innerHTML = '';
+
+      if (items.length === 0) {
+        list.innerHTML = '<p class="text-xs text-center text-slate-400 py-6">No stories waiting to upload.</p>';
+        return;
+      }
+
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-xl p-3.5 border border-slate-200 text-left shadow-xs';
+        div.innerHTML = `
+          <div class="flex justify-between items-start">
+            <strong class="text-sm font-bold text-slate-800">${item.person}</strong>
+            <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">${item.savedAt}</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">${item.location || 'Field'}${item.tags.length ? ' • ' + item.tags.join(', ') : ''}</p>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function triggerSync() {
+      const items = getCache();
+      if (items.length === 0) {
+        alert('No pending stories to upload.');
+        return;
+      }
+      alert('Uploading ' + items.length + ' stories to African Enterprise central storage...');
+    }
+
+    window.addEventListener('online', () => {
+      const badge = document.getElementById('connStatus');
+      badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Online</span>';
+    });
+    window.addEventListener('offline', () => {
+      const badge = document.getElementById('connStatus');
+      badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span><span>Offline</span>';
+    });
+  </script>
+</body>
+</html>
