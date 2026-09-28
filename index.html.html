@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <!-- SECTION 2: TESTIMONY FOCUS & STORY (Charcoal Slate Accent #1E293B) -->
+    <!-- SECTION 2: TESTIMONY FOCUS & STORY (Charcoal Slate Accent) -->
     <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-slate-100 to-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -198,7 +198,7 @@
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40">
     <div class="max-w-md mx-auto grid grid-cols-2 h-16">
       
-      <!-- Capture Tab Button (Solid Reporter Mic / Field Journal) -->
+      <!-- Capture Tab Button -->
       <button onclick="switchTab('tab-capture', this)" class="nav-btn flex flex-col items-center justify-center text-orange-600 font-bold transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -209,7 +209,7 @@
         <span class="text-[11px] font-bold mt-0.5 tracking-tight">Capture</span>
       </button>
 
-      <!-- Cache Tab Button (Solid Archival Storage Drawer) -->
+      <!-- Cache Tab Button -->
       <button onclick="switchTab('tab-cache', this)" class="nav-btn flex flex-col items-center justify-center text-slate-400 font-semibold hover:text-slate-600 transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -224,6 +224,29 @@
   </nav>
 
   <script>
+    // Live Google Apps Script Webhook URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
+
+    let capturedMedia = [];
+
+    // Listen for photo uploads and convert to base64 for offline storage
+    document.getElementById('mediaUpload').addEventListener('change', function(e) {
+      capturedMedia = [];
+      const files = Array.from(e.target.files);
+      
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          capturedMedia.push({
+            name: file.name,
+            type: file.type,
+            data: evt.target.result
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
     function switchTab(tabId, el) {
       document.getElementById('tab-capture').classList.add('hidden');
       document.getElementById('tab-cache').classList.add('hidden');
@@ -265,22 +288,29 @@
         beforeLife: document.getElementById('beforeLife').value.trim(),
         whatHappened: document.getElementById('encounter').value.trim(),
         nowFeelings: document.getElementById('feelNow').value.trim(),
+        media: capturedMedia,
         savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
-      const items = getCache();
-      items.push(entry);
-      localStorage.setItem('ae_testimonies', JSON.stringify(items));
+      try {
+        const items = getCache();
+        items.push(entry);
+        localStorage.setItem('ae_testimonies', JSON.stringify(items));
 
-      // Reset fields
-      document.getElementById('personName').value = '';
-      document.getElementById('personLocation').value = '';
-      document.getElementById('beforeLife').value = '';
-      document.getElementById('encounter').value = '';
-      document.getElementById('feelNow').value = '';
-      document.querySelectorAll('.tag-pill.active').forEach(p => toggleTag(p));
+        // Reset form fields
+        document.getElementById('personName').value = '';
+        document.getElementById('personLocation').value = '';
+        document.getElementById('beforeLife').value = '';
+        document.getElementById('encounter').value = '';
+        document.getElementById('feelNow').value = '';
+        document.getElementById('mediaUpload').value = '';
+        capturedMedia = [];
+        document.querySelectorAll('.tag-pill.active').forEach(p => toggleTag(p));
 
-      alert('Testimony saved offline! View or sync in the Cache tab.');
+        alert('Testimony and media saved offline! Go to the Cache tab when you reach Wi-Fi.');
+      } catch (err) {
+        alert('Storage quota exceeded. Please upload pending stories before attaching more media.');
+      }
     }
 
     function renderCache() {
@@ -297,24 +327,57 @@
       items.forEach(item => {
         const div = document.createElement('div');
         div.className = 'bg-white rounded-xl p-3.5 border border-slate-200 text-left shadow-xs';
+        const mediaCount = (item.media && item.media.length) ? ` • ${item.media.length} file(s)` : '';
         div.innerHTML = `
           <div class="flex justify-between items-start">
             <strong class="text-sm font-bold text-slate-800">${item.person}</strong>
             <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">${item.savedAt}</span>
           </div>
-          <p class="text-xs text-slate-500 mt-1">${item.location || 'Field'}${item.tags.length ? ' • ' + item.tags.join(', ') : ''}</p>
+          <p class="text-xs text-slate-500 mt-1">${item.location || 'Field'}${item.tags.length ? ' • ' + item.tags.join(', ') : ''}${mediaCount}</p>
         `;
         list.appendChild(div);
       });
     }
 
-    function triggerSync() {
+    async function triggerSync() {
       const items = getCache();
       if (items.length === 0) {
         alert('No pending stories to upload.');
         return;
       }
-      alert('Uploading ' + items.length + ' stories to African Enterprise central storage...');
+
+      const syncBtn = document.querySelector('#tab-cache button');
+      syncBtn.disabled = true;
+      syncBtn.innerText = 'Uploading to Google Drive...';
+
+      let successCount = 0;
+      const failedItems = [];
+
+      for (const item of items) {
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+          });
+          successCount++;
+        } catch (error) {
+          failedItems.push(item);
+        }
+      }
+
+      localStorage.setItem('ae_testimonies', JSON.stringify(failedItems));
+      renderCache();
+
+      syncBtn.disabled = false;
+      syncBtn.innerHTML = '<span>Upload All (Wi-Fi)</span>';
+
+      if (failedItems.length === 0) {
+        alert(`Success! All ${successCount} story records and media were uploaded directly to your Google Drive and Sheet.`);
+      } else {
+        alert(`Uploaded ${successCount} stories. ${failedItems.length} failed and remain stored offline.`);
+      }
     }
 
     window.addEventListener('online', () => {
