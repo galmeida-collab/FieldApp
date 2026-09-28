@@ -8,7 +8,6 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#EA580C">
 
-  <!-- Apple iOS Icons & Meta -->
   <link rel="apple-touch-icon" href="AESA General Name Logo 2022.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -26,17 +25,17 @@
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col justify-between antialiased selection:bg-orange-100 selection:text-orange-900 pb-20">
 
-  <!-- FULL-SCREEN ACCESS GATE (Passcode: AE2026) -->
+  <!-- PASSCODE GATE -->
   <div id="gateOverlay" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl space-y-5 border border-slate-100">
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-50 border border-orange-200">
-        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
       </div>
       <div>
         <h2 class="text-xl font-black text-slate-900">Authorised Access Only</h2>
-        <p class="text-xs text-slate-500 mt-1">Please enter the African Enterprise team passcode to unlock this tool.</p>
+        <p class="text-xs text-slate-500 mt-1">Please enter the African Enterprise team passcode.</p>
       </div>
 
       <div class="space-y-3">
@@ -59,7 +58,7 @@
     </div>
   </div>
 
-  <!-- Top Sticky Header -->
+  <!-- STICKY TOP HEADER -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
     <div class="max-w-md mx-auto grid grid-cols-3 items-center">
       <div class="flex items-center justify-start">
@@ -93,7 +92,6 @@
         class="absolute inset-0 w-full h-full object-cover object-center scale-105"
         onerror="this.src='hero_frontline.jpg?v=1'"
       >
-      <!-- Contrast Overlay for readability -->
       <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/65 to-black/35 backdrop-blur-[0.5px]"></div>
 
       <div class="relative z-10 flex items-center justify-between mb-3 border-b border-white/20 pb-2">
@@ -112,7 +110,7 @@
         <div class="bg-black/45 backdrop-blur-md rounded-xl p-2.5 border border-white/15 shadow-inner">
           <span id="statMonthLabel" class="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 block">Current Month</span>
           <div class="mt-1">
-            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Reached</span>
+            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Reached / Views</span>
             <span id="statMonthReached" class="text-xl sm:text-2xl font-black text-white leading-none drop-shadow-xs">0</span>
           </div>
           <div class="mt-2 pt-1.5 border-t border-white/15">
@@ -125,7 +123,7 @@
         <div class="bg-black/45 backdrop-blur-md rounded-xl p-2.5 border border-white/15 shadow-inner">
           <span id="statYearLabel" class="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 block">Year to Date</span>
           <div class="mt-1">
-            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Reached</span>
+            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Reached / Views</span>
             <span id="statYearReached" class="text-xl sm:text-2xl font-black text-amber-300 leading-none drop-shadow-xs">0</span>
           </div>
           <div class="mt-2 pt-1.5 border-t border-white/15">
@@ -144,8 +142,7 @@
 
     <!-- SIDE-BY-SIDE DUAL HERO GRID -->
     <div class="grid grid-cols-2 gap-3 w-full">
-      
-      <!-- 2. Hero Card 1: Frontline Stories: hero_frontline.jpg -->
+      <!-- Hero Card 1: Frontline Stories -->
       <div onclick="navigateTo('tab-stories')" class="relative overflow-hidden rounded-2xl p-4 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
         <img src="hero_frontline.jpg?v=1" alt="Frontline Stories" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='hero.jpg?v=1'">
         <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 via-orange-900/75 to-black/45"></div>
@@ -155,7 +152,7 @@
             Frontline Stories
           </h3>
           <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
-            Record life encounters, transformation stories, and attach field photos / video.
+            Record testimonies, life encounters, and attach media.
           </p>
         </div>
 
@@ -165,7 +162,7 @@
         </div>
       </div>
 
-      <!-- 3. Hero Card 2: Outreach Data: hero_outreach.jpg -->
+      <!-- Hero Card 2: Outreach Data -->
       <div onclick="navigateTo('tab-outreach')" class="relative overflow-hidden rounded-2xl p-4 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
         <img src="hero_outreach.jpg?v=1" alt="Outreach Data" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='hero2.jpeg?v=1'">
         <div class="absolute inset-0 bg-gradient-to-t from-amber-950/95 via-orange-950/80 to-black/45"></div>
@@ -175,7 +172,7 @@
             Outreach Data
           </h3>
           <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
-            Capture our ministry activities and decisions in one place.
+            Physical outreaches & digital media engagement numbers.
           </p>
         </div>
 
@@ -184,7 +181,6 @@
           <svg class="w-3.5 h-3.5 translate-x-0 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
         </div>
       </div>
-
     </div>
 
     <!-- Quick Offline Status Pill -->
@@ -202,7 +198,7 @@
     </div>
   </main>
 
-  <!-- TAB 1: FRONTLINE STORIES FORM (Internal Header: hero_frontline.jpg) -->
+  <!-- TAB 1: FRONTLINE STORIES FORM -->
   <main id="tab-stories" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
     <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md flex items-center justify-between">
       <img src="hero_frontline.jpg?v=1" alt="Frontline Stories" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.src='hero.jpg?v=1'">
@@ -214,36 +210,41 @@
       <button onclick="navigateTo('tab-home')" class="relative z-10 px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition-all">✕ Close</button>
     </div>
 
-    <!-- Section 1: Story Details -->
+    <!-- Story Details -->
     <div class="bg-white rounded-2xl border-2 border-orange-200/90 shadow-sm overflow-hidden text-left">
       <div class="bg-gradient-to-r from-orange-50 to-amber-50/50 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-orange-600 text-white text-xs font-black flex items-center justify-center shadow-xs">1</span>
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Story Details</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Encounter Context</h2>
         </div>
         <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md flex items-center gap-1">Unlocked</span>
       </div>
       
       <div class="p-4 space-y-3">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Person's Full Name</label>
-          <input type="text" id="personName" placeholder="e.g. Sipho Ndlovu" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
-        </div>
-
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Location / Field</label>
-            <input type="text" id="personLocation" placeholder="e.g. Pietermaritzburg" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Date</label>
+            <input type="date" id="storyDate" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Reporter Name</label>
-            <input type="text" id="reporterName" placeholder="Your Name" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+            <input type="text" id="reporterName" placeholder="Your Name" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Person's Full Name</label>
+          <input type="text" id="personName" placeholder="e.g. Sipho Ndlovu" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 font-medium">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Location / Zone / Platform</label>
+          <input type="text" id="personLocation" placeholder="e.g. Pietermaritzburg or YouTube Live" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 font-medium">
         </div>
       </div>
     </div>
 
-    <!-- Section 2: Narrative -->
+    <!-- Narrative -->
     <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-sm overflow-hidden text-left">
       <div class="bg-gradient-to-r from-slate-100 to-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -260,37 +261,29 @@
             <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Salvation</button>
             <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Recommitment</button>
             <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Healing</button>
-            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Reconciliation</button>
+            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Digital Inquiry</button>
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">1. Life Before Christ</label>
-          <textarea id="beforeLife" rows="2" placeholder="Background, struggles, or perspective prior to encounter..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-[#1E293B] transition-all resize-none"></textarea>
+          <textarea id="beforeLife" rows="2" placeholder="Background, struggles, or situation prior to encounter..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 resize-none"></textarea>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">2. The Gospel Encounter</label>
-          <textarea id="encounter" rows="2" placeholder="What happened when the good news was shared?" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-[#1E293B] transition-all resize-none"></textarea>
+          <textarea id="encounter" rows="2" placeholder="What happened when the Good News was shared?" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 resize-none"></textarea>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">3. How They Feel Now</label>
-          <textarea id="feelNow" rows="2" placeholder="New sense of hope, peace, transformation..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-[#1E293B] transition-all resize-none"></textarea>
+          <textarea id="feelNow" rows="2" placeholder="New sense of hope, peace, transformation..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/30 resize-none"></textarea>
         </div>
       </div>
     </div>
 
-    <!-- Section 3: Media & Save -->
+    <!-- Media & Save -->
     <div class="bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm overflow-hidden text-left">
-      <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3 border-b border-emerald-200 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs font-black flex items-center justify-center shadow-xs">3</span>
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-emerald-950">Field Media & Save</h2>
-        </div>
-        <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">Offline Store</span>
-      </div>
-
       <div class="p-4 space-y-3.5">
         <div class="border-2 border-dashed border-emerald-300 rounded-xl p-3 bg-emerald-50/30">
           <div class="flex items-center justify-between mb-1.5">
@@ -315,69 +308,78 @@
     </div>
   </main>
 
-  <!-- TAB 2: OUTREACH & REACHED DATA FORM (Internal Header: hero_outreach.jpg) -->
+  <!-- TAB 2: OUTREACH & REACHED DATA FORM (WITH DATE & DIGITAL MEDIA) -->
   <main id="tab-outreach" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
     <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md flex items-center justify-between">
       <img src="hero_outreach.jpg?v=1" alt="Outreach Data" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.src='hero2.jpeg?v=1'">
       <div class="absolute inset-0 bg-gradient-to-r from-amber-950/95 via-orange-950/85 to-black/40"></div>
       <div class="relative z-10 text-left">
         <h2 class="text-xl font-black uppercase text-white">Outreach Data</h2>
-        <p class="text-[11px] text-orange-200 font-medium">Tracking decisions, rallies & impact</p>
+        <p class="text-[11px] text-orange-200 font-medium">Physical rallies, schools & digital media</p>
       </div>
       <button onclick="navigateTo('tab-home')" class="relative z-10 px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition-all">✕ Close</button>
     </div>
 
-    <!-- Section 1: Field Context -->
+    <!-- Section 1: Field & Platform Context -->
     <div class="bg-white rounded-2xl border-2 border-orange-200/90 shadow-sm overflow-hidden text-left">
       <div class="bg-gradient-to-r from-orange-50 to-amber-50/60 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-orange-600 text-white text-xs font-black flex items-center justify-center shadow-xs">1</span>
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Field Context</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Ministry & Date Context</h2>
         </div>
-        <span class="text-[10px] font-bold text-orange-800 bg-orange-100/90 px-2 py-0.5 rounded-md">Stratified Outreach</span>
+        <span class="text-[10px] font-bold text-orange-800 bg-orange-100/90 px-2 py-0.5 rounded-md">Mission Record</span>
       </div>
 
       <div class="p-4 space-y-3">
+        <!-- Ministry Date Field (Crucial for Year/Month grouping) -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Date</label>
+            <input type="date" id="outreachDate" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">AE Representative</label>
+            <input type="text" id="outreachRep" placeholder="Team Member Name" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+          </div>
+        </div>
+
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Pillar</label>
-          <select id="outreachPillar" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
+          <select id="outreachPillar" onchange="adjustPillarOptions(this.value)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
             <option value="Proclamation Evangelism">Proclamation Evangelism (Crusades / Rallies)</option>
+            <option value="Digital Media Evangelism">Digital Media Evangelism (YouTube, Socials)</option>
             <option value="Foxes / Leadership Training">Foxes / Leadership Training</option>
+            <option value="Youth & Schools Ministry">Youth & Schools Ministry</option>
             <option value="Social Action & Aid">Social Action & Community Aid</option>
             <option value="Peacebuilding & Reconciliation">Peacebuilding & Reconciliation</option>
-            <option value="Youth & Schools Ministry">Youth & Schools Ministry</option>
           </select>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Strata Sector</label>
-          <select id="outreachStrata" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
+          <label id="strataLabel" class="block text-xs font-bold text-slate-700 mb-1">Strata Sector / Channel</label>
+          <select id="outreachStrata" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <!-- Dynamic or Default Options -->
             <option value="Primary Schools">Primary Schools</option>
             <option value="High / Secondary Schools">High / Secondary Schools</option>
             <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
             <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
             <option value="Churches & Pastor Fraternals">Churches & Pastor Fraternals</option>
             <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
-            <option value="Prisons & Correctional Facilities">Prisons & Correctional Facilities</option>
-            <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare Facilities</option>
+            <option value="Prisons & Correctional Facilities">Prisons & Correctional</option>
+            <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare</option>
             <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural</option>
           </select>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Location / Zone</label>
-            <input type="text" id="outreachLocation" placeholder="e.g. Pietermaritzburg" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
+            <label id="locationLabel" class="block text-xs font-bold text-slate-700 mb-1">Location / Platform</label>
+            <input type="text" id="outreachLocation" placeholder="e.g. Pietermaritzburg / YouTube" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Venue Name</label>
-            <input type="text" id="outreachVenue" placeholder="e.g. Eastwood High School" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
+            <label id="venueLabel" class="block text-xs font-bold text-slate-700 mb-1">Venue / Campaign Handle</label>
+            <input type="text" id="outreachVenue" placeholder="e.g. Town Hall / Live broadcast" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">AE Representative / Lead</label>
-          <input type="text" id="outreachRep" placeholder="Lead Evangelist / Team Member" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
         </div>
       </div>
     </div>
@@ -387,17 +389,17 @@
       <div class="bg-gradient-to-r from-orange-100/70 to-amber-50 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-orange-700 text-white text-xs font-black flex items-center justify-center shadow-xs">2</span>
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Reach & Decisions Tallies</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Reach & Response Tallies</h2>
         </div>
-        <span class="text-[10px] font-bold text-orange-900 bg-orange-200/80 px-2 py-0.5 rounded-md">Quick Counters</span>
+        <span class="text-[10px] font-bold text-orange-900 bg-orange-200/80 px-2 py-0.5 rounded-md">Direct Counts</span>
       </div>
 
       <div class="p-4 space-y-4">
         <div class="grid grid-cols-2 gap-3">
           
-          <!-- Total Reached -->
+          <!-- Total Reached / Views -->
           <div class="bg-amber-50/40 p-3 rounded-xl border border-amber-200/80 text-center">
-            <label class="block text-[11px] font-extrabold text-amber-950 uppercase tracking-tight mb-1.5">Total Reached</label>
+            <label id="reachCounterLabel" class="block text-[11px] font-extrabold text-amber-950 uppercase tracking-tight mb-1.5">Total Reached / Views</label>
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countReached', -10)" class="w-8 h-8 rounded-lg bg-white border border-amber-300 font-black text-amber-900 active:bg-amber-100 transition-all">-</button>
               <input type="number" id="countReached" value="0" min="0" class="w-16 text-center font-black text-lg text-slate-900 bg-transparent focus:outline-none">
@@ -407,7 +409,7 @@
 
           <!-- Salvations -->
           <div class="bg-emerald-50/50 p-3 rounded-xl border border-emerald-200 text-center">
-            <label class="block text-[11px] font-extrabold text-emerald-900 uppercase tracking-tight mb-1.5">Salvations</label>
+            <label class="block text-[11px] font-extrabold text-emerald-900 uppercase tracking-tight mb-1.5">Salvations / Online</label>
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countSalvations', -1)" class="w-8 h-8 rounded-lg bg-white border border-emerald-300 font-black text-emerald-800 active:bg-emerald-100 transition-all">-</button>
               <input type="number" id="countSalvations" value="0" min="0" class="w-16 text-center font-black text-lg text-emerald-700 bg-transparent focus:outline-none">
@@ -425,9 +427,9 @@
             </div>
           </div>
 
-          <!-- Healings -->
+          <!-- Healings / Prayers -->
           <div class="bg-amber-100/40 p-3 rounded-xl border border-amber-300/70 text-center">
-            <label class="block text-[11px] font-extrabold text-amber-900 uppercase tracking-tight mb-1.5">Healings</label>
+            <label class="block text-[11px] font-extrabold text-amber-900 uppercase tracking-tight mb-1.5">Healings / Prayers</label>
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countHealings', -1)" class="w-8 h-8 rounded-lg bg-white border border-amber-400 font-black text-amber-900 active:bg-amber-100 transition-all">-</button>
               <input type="number" id="countHealings" value="0" min="0" class="w-16 text-center font-black text-lg text-amber-800 bg-transparent focus:outline-none">
@@ -438,8 +440,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Key Resolutions / Notes</label>
-          <textarea id="outreachNotes" rows="2" placeholder="Brief notes on ministry response or follow-up commitments..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 resize-none"></textarea>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Key Resolutions / Links / Notes</label>
+          <textarea id="outreachNotes" rows="2" placeholder="Notes, broadcast link, or follow-up details..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 resize-none"></textarea>
         </div>
 
         <button onclick="saveOutreachOffline()" class="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
@@ -476,24 +478,19 @@
 
   <!-- Footer Versioning -->
   <footer class="py-4 text-center text-xs font-semibold text-slate-400">
-    African Enterprise South Africa • v1.3.0
+    African Enterprise South Africa • v1.3.1
   </footer>
 
-  <!-- Bottom Navigation: 4 TABS (Home | Stories | Outreach | Cache) -->
+  <!-- BOTTOM NAVIGATION -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40">
     <div class="max-w-md mx-auto grid grid-cols-4 h-16">
-      
-      <!-- Button 0: Home -->
       <button onclick="switchTab('tab-home', this)" id="nav-btn-home" class="nav-btn flex flex-col items-center justify-center text-orange-600 font-bold transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-          </svg>
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         </div>
         <span class="text-[10px] font-bold mt-0.5 tracking-tight">Home</span>
       </button>
 
-      <!-- Button 1: Stories -->
       <button onclick="switchTab('tab-stories', this)" id="nav-btn-stories" class="nav-btn flex flex-col items-center justify-center text-slate-400 font-semibold hover:text-slate-600 transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -504,7 +501,6 @@
         <span class="text-[10px] font-bold mt-0.5 tracking-tight">Stories</span>
       </button>
 
-      <!-- Button 2: Outreach -->
       <button onclick="switchTab('tab-outreach', this)" id="nav-btn-outreach" class="nav-btn flex flex-col items-center justify-center text-slate-400 font-semibold hover:text-slate-600 transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -515,7 +511,6 @@
         <span class="text-[10px] font-bold mt-0.5 tracking-tight">Outreach</span>
       </button>
 
-      <!-- Button 3: Cache -->
       <button onclick="switchTab('tab-cache', this)" id="nav-btn-cache" class="nav-btn flex flex-col items-center justify-center text-slate-400 font-semibold hover:text-slate-600 transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -525,7 +520,6 @@
         </div>
         <span class="text-[10px] font-bold mt-0.5 tracking-tight">Cache</span>
       </button>
-
     </div>
   </nav>
 
@@ -533,12 +527,60 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
+    // Set default date to today
+    function initDates() {
+      const today = new Date().toISOString().split('T')[0];
+      const outreachDateEl = document.getElementById('outreachDate');
+      const storyDateEl = document.getElementById('storyDate');
+      if (outreachDateEl && !outreachDateEl.value) outreachDateEl.value = today;
+      if (storyDateEl && !storyDateEl.value) storyDateEl.value = today;
+    }
+
+    // Dynamic dropdown adjustment for Digital Media Evangelism
+    function adjustPillarOptions(pillarVal) {
+      const strataSelect = document.getElementById('outreachStrata');
+      const strataLabel = document.getElementById('strataLabel');
+      const locationInput = document.getElementById('outreachLocation');
+      const venueInput = document.getElementById('outreachVenue');
+
+      if (pillarVal === 'Digital Media Evangelism') {
+        strataLabel.innerText = "Social Platform / Channel";
+        strataSelect.innerHTML = `
+          <option value="YouTube">YouTube</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Instagram">Instagram</option>
+          <option value="TikTok">TikTok</option>
+          <option value="X (Twitter)">X (Twitter)</option>
+          <option value="WhatsApp Community">WhatsApp Community</option>
+          <option value="Podcast / Audio Stream">Podcast / Audio Stream</option>
+        `;
+        locationInput.placeholder = "e.g. YouTube Live / Channel URL";
+        venueInput.placeholder = "e.g. @AfricanEnterpriseSA / Campaign";
+      } else {
+        strataLabel.innerText = "Strata Sector";
+        strataSelect.innerHTML = `
+          <option value="Primary Schools">Primary Schools</option>
+          <option value="High / Secondary Schools">High / Secondary Schools</option>
+          <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
+          <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
+          <option value="Churches & Pastor Fraternals">Churches & Pastor Fraternals</option>
+          <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
+          <option value="Prisons & Correctional Facilities">Prisons & Correctional Facilities</option>
+          <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare Facilities</option>
+          <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural</option>
+        `;
+        locationInput.placeholder = "e.g. Pietermaritzburg";
+        venueInput.placeholder = "e.g. Eastwood High School";
+      }
+    }
+
     // ACCESS GATE
     function checkGateAccess() {
       const stored = localStorage.getItem('ae_field_passcode');
       const gate = document.getElementById('gateOverlay');
       if (stored === EXPECTED_PASSCODE) {
         gate.classList.add('hidden');
+        initDates();
         renderStoredTotals();
         fetchLiveTotals();
         updateHomeCacheCount();
@@ -555,6 +597,7 @@
         document.getElementById('gateOverlay').classList.add('hidden');
         err.classList.add('hidden');
         document.getElementById('gateInput').value = '';
+        initDates();
         renderStoredTotals();
         fetchLiveTotals();
         updateHomeCacheCount();
@@ -572,7 +615,7 @@
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
 
-    // --- RUNNING TOTALS LOGIC ---
+    // TOTALS LOGIC
     function renderStoredTotals() {
       try {
         const stored = JSON.parse(localStorage.getItem('ae_outreach_totals') || '{}');
@@ -607,25 +650,32 @@
           renderStoredTotals();
         }
       } catch (err) {
-        console.log('Totals fetch error (offline or network):', err);
+        console.log('Totals fetch error:', err);
       } finally {
         if (icon) icon.classList.remove('animate-spin');
       }
     }
 
-    function incrementLocalCounters(newReached, newDecisions) {
+    function incrementLocalCounters(newReached, newDecisions, entryDateStr) {
       try {
         let stored = JSON.parse(localStorage.getItem('ae_outreach_totals') || '{}');
-        stored.monthReached = (stored.monthReached || 0) + newReached;
-        stored.monthDecisions = (stored.monthDecisions || 0) + newDecisions;
-        stored.yearReached = (stored.yearReached || 0) + newReached;
-        stored.yearDecisions = (stored.yearDecisions || 0) + newDecisions;
+        const now = new Date();
+        const entryDate = entryDateStr ? new Date(entryDateStr) : now;
+
+        if (entryDate.getFullYear() === now.getFullYear()) {
+          stored.yearReached = (stored.yearReached || 0) + newReached;
+          stored.yearDecisions = (stored.yearDecisions || 0) + newDecisions;
+
+          if (entryDate.getMonth() === now.getMonth()) {
+            stored.monthReached = (stored.monthReached || 0) + newReached;
+            stored.monthDecisions = (stored.monthDecisions || 0) + newDecisions;
+          }
+        }
         localStorage.setItem('ae_outreach_totals', JSON.stringify(stored));
         renderStoredTotals();
       } catch (e) {}
     }
 
-    // STEPPER COUNTER HELPER
     function stepVal(id, delta) {
       const el = document.getElementById(id);
       let val = parseInt(el.value, 10) || 0;
@@ -633,7 +683,7 @@
       el.value = val;
     }
 
-    // --- INDEXEDDB IMPLEMENTATION ---
+    // INDEXEDDB ENGINE
     const DB_NAME = 'AE_Frontline_DB';
     const DB_VERSION = 1;
     const STORE_NAME = 'stories';
@@ -696,7 +746,7 @@
       } catch (e) {}
     }
 
-    // --- TAB SWITCHING & ROUTING ---
+    // ROUTING
     function navigateTo(tabId) {
       const btnMap = {
         'tab-home': document.getElementById('nav-btn-home'),
@@ -732,7 +782,7 @@
       window.scrollTo(0, 0);
     }
 
-    // --- FRONTLINE STORIES LOGIC ---
+    // STORY CAPTURE
     let capturedPhotos = [];
     let capturedVideos = [];
 
@@ -791,6 +841,7 @@
         id: Date.now(),
         entryType: "story",
         passcode: passcode,
+        ministryDate: document.getElementById('storyDate').value || new Date().toISOString().split('T')[0],
         person: person,
         location: document.getElementById('personLocation').value.trim(),
         reporter: document.getElementById('reporterName').value.trim(),
@@ -821,15 +872,16 @@
       navigateTo('tab-home');
     }
 
-    // --- OUTREACH DATA LOGIC ---
+    // OUTREACH CAPTURE
     async function saveOutreachOffline() {
       const passcode = localStorage.getItem('ae_field_passcode');
       if (passcode !== EXPECTED_PASSCODE) { lockApp(); return; }
 
-      const location = document.getElementById('outreachLocation').value.trim();
+      const ministryDate = document.getElementById('outreachDate').value || new Date().toISOString().split('T')[0];
       const rep = document.getElementById('outreachRep').value.trim();
+      const location = document.getElementById('outreachLocation').value.trim();
 
-      if (!location) { alert('Please enter a location/zone.'); return; }
+      if (!location) { alert('Please enter a location or digital platform.'); return; }
       if (!rep) { alert('Please enter the AE Representative name.'); return; }
 
       const reached = parseInt(document.getElementById('countReached').value, 10) || 0;
@@ -841,6 +893,7 @@
         id: Date.now(),
         entryType: "outreach",
         passcode: passcode,
+        ministryDate: ministryDate,
         pillar: document.getElementById('outreachPillar').value,
         location: location,
         venue: document.getElementById('outreachVenue').value.trim(),
@@ -855,10 +908,8 @@
       };
 
       await dbSave(entry);
+      incrementLocalCounters(reached, combinedDecisions, ministryDate);
 
-      incrementLocalCounters(reached, combinedDecisions);
-
-      document.getElementById('outreachLocation').value = '';
       document.getElementById('outreachVenue').value = '';
       document.getElementById('outreachNotes').value = '';
       document.getElementById('countReached').value = 0;
@@ -866,11 +917,11 @@
       document.getElementById('countRecommit').value = 0;
       document.getElementById('countHealings').value = 0;
 
-      alert('Outreach data saved offline! Running harvest counters updated.');
+      alert('Outreach data saved! Harvest counters updated.');
       navigateTo('tab-home');
     }
 
-    // --- CACHE RENDERING & SYNC ---
+    // CACHE & SYNC
     async function renderCache() {
       const items = await dbGetAll();
       document.getElementById('cacheCount').innerText = items.length;
@@ -891,16 +942,16 @@
           div.innerHTML = `
             <div class="flex justify-between items-start">
               <strong class="text-sm font-bold text-orange-950">${item.pillar}</strong>
-              <span class="text-[10px] bg-orange-100 text-orange-900 px-2 py-0.5 rounded font-bold">Outreach</span>
+              <span class="text-[10px] bg-orange-100 text-orange-900 px-2 py-0.5 rounded font-bold">${item.ministryDate || 'Recent'}</span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">${item.location} (${item.venue || 'Site'}) • Reached: ${item.reached} | Decisions: ${totalDecisions} | Healings: ${item.healings}</p>
+            <p class="text-xs text-slate-500 mt-1">${item.location} (${item.venue || item.strata}) • Reached/Views: ${item.reached} | Decisions: ${totalDecisions} | Healings: ${item.healings}</p>
           `;
         } else {
           const mediaCount = (item.media && item.media.length) ? ` • ${item.media.length} file(s)` : '';
           div.innerHTML = `
             <div class="flex justify-between items-start">
               <strong class="text-sm font-bold text-slate-800">${item.person}</strong>
-              <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">Story</span>
+              <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">${item.ministryDate || 'Story'}</span>
             </div>
             <p class="text-xs text-slate-500 mt-1">${item.location || 'Field'}${item.tags ? ' • ' + item.tags.join(', ') : ''}${mediaCount}</p>
           `;

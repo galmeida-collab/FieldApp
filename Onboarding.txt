@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <title>AESA Mobile Field App - Onboarding Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c2410c;       /* AE Warm Terracotta */
+      --primary-dark: #9a3412;
+      --primary-light: #ffedd5;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      --emerald-700: #047857;
+      --emerald-50: #ecfdf5;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--slate-800);
+      background-color: var(--slate-100);
+      line-height: 1.6;
+      font-size: 13.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Floating Print Button for Browser View */
+    .no-print-bar {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+    }
+
+    .btn-print {
+      background-color: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(194, 65, 12, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-print:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Document Sheet Wrapper (A4 Proportions) */
+    .document-container {
+      max-width: 820px;
+      margin: 32px auto;
+      background: #ffffff;
+      padding: 48px 56px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      border: 1px solid var(--border);
+    }
+
+    /* Document Header */
+    header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-left h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.02em;
+    }
+
+    .header-left p {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-size: 11.5px;
+      color: var(--slate-600);
+      font-weight: 500;
+    }
+
+    .badge-version {
+      display: inline-block;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 26px;
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--slate-900);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1.5px solid var(--slate-100);
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 14px;
+      background-color: var(--primary);
+      border-radius: 2px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: var(--slate-700);
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 6px;
+      color: var(--slate-700);
+    }
+
+    strong {
+      color: var(--slate-900);
+      font-weight: 700;
+    }
+
+    /* Module Highlights Box */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0;
+    }
+
+    .module-card {
+      background-color: var(--slate-50);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .module-card h3 {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 4px;
+    }
+
+    .module-card p {
+      font-size: 12px;
+      color: var(--slate-600);
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    /* Cache Architecture Diagram Box */
+    .diagram-box {
+      background-color: var(--slate-50);
+      border: 1px dashed var(--slate-700);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 14px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: var(--slate-800);
+      line-height: 1.4;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* Callout Note */
+    .callout {
+      background-color: var(--emerald-50);
+      border-left: 4px solid var(--emerald-700);
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12.5px;
+      color: var(--emerald-700);
+      margin: 12px 0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 12.5px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--slate-50);
+      font-weight: 700;
+      color: var(--slate-900);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Print Specific Styles */
+    @media print {
+      body {
+        background-color: #ffffff;
+        font-size: 11.5pt;
+      }
+
+      .no-print-bar {
+        display: none !important;
+      }
+
+      .document-container {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        box-shadow: none;
+        border: none;
+      }
+
+      header {
+        margin-bottom: 20px;
+      }
+
+      .page-break {
+        page-break-before: always;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 18mm 18mm 18mm 18mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Print Button -->
+  <div class="no-print-bar">
+    <button class="btn-print" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+  <div class="document-container">
+
+    <!-- Document Header -->
+    <header>
+      <div class="header-left">
+        <h1>AESA Mobile Field App</h1>
+        <p>Field Staff & Evangelist Onboarding Guide</p>
+      </div>
+      <div class="header-meta">
+        <span class="badge-version">Release v1.3</span>
+        <div>African Enterprise South Africa</div>
+        <div>Field Operations Documentation</div>
+      </div>
+    </header>
+
+    <!-- Section 1 -->
+    <section>
+      <h2>1. Purpose & Field Mission Architecture</h2>
+      <p>
+        The <strong>AESA Mobile Field App</strong> is an offline-first operational tool designed to empower evangelists, mission coordinators, and stratified teams to capture qualitative testimonies and quantitative harvest metrics directly at the point of ministry.
+      </p>
+      
+      <div class="grid-cards">
+        <div class="module-card">
+          <h3>📖 Frontline Stories</h3>
+          <p>
+            Records deep personal transformation accounts, background testimonies, encounter narratives, and automatically attaches high-resolution on-site photographs and short video clips.
+          </p>
+        </div>
+        <div class="module-card">
+          <h3>📊 Outreach Data</h3>
+          <p>
+            Tracks stratified ministry across 5 key pillars. Uses rapid-tap steppers to record <strong>Total Reached</strong>, <strong>Decisions</strong> (Salvations & Recommitments), and <strong>Healings</strong>.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        The <strong>Live Mission Harvest Dashboard</strong> sits at the top of the launchpad, providing running tallies of people reached and decisions recorded for the current month alongside the calendar year-to-date total.
+      </p>
+    </section>
+
+    <!-- Section 2 -->
+    <section>
+      <h2>2. The Offline Cache Engine: How It Works</h2>
+      <p>
+        Field evangelism regularly takes place in environments without reliable mobile coverage—including rural schools, correctional facilities, and dense gatherings. The application utilizes an internal browser database (IndexedDB) to ensure no ministry encounter is lost.
+      </p>
+
+      <div class="diagram-box">[ Field Encounter / Ministry Activity ]
+                 │
+                 ▼
+     [ Tap "Save Offline" Button ]
+                 │
+                 ▼
+    ┌──────────────────────────────────────────────┐
+    │          SECURE LOCAL STORAGE (IndexedDB)    │
+    │  • Stored directly inside phone memory       │
+    │  • Zero cellular signal or data required     │
+    │  • Instantly updates on-screen harvest stats │
+    └──────────────────────────────────────────────┘
+                 │
+      (Connect to Wi-Fi or Mobile Signal)
+                 ▼
+        [ Tap "Upload All (Wi-Fi)" ]
+                 │
+                 ├───────────────────────────────┐
+                 ▼                               ▼
+       [ Master Google Sheet ]         [ Google Drive Folder ]
+          • "Stories" Tab                 • Media Attachments
+          • "Reached" Tab                   (Photos & Videos)</div>
+
+      <div class="callout">
+        <strong>Field Rule:</strong> Never wait for internet signal before recording an encounter. Fill in the details and save immediately. The app safely stores media and text locally until you manually initiate the sync.
+      </div>
+
+      <ul>
+        <li><strong>Instant Feedback:</strong> Saving an outreach entry increments your on-screen harvest totals immediately, providing an accurate overview of your day's work before uploading.</li>
+        <li><strong>Protected Data:</strong> Cached records are only deleted from your physical device after the central Google Sheet successfully acknowledges that every field and media URL is secured.</li>
+      </ul>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="page-break">
+      <h2>3. Installation Guide (Smartphones & Tablets)</h2>
+      <p>
+        The app is deployed as a Progressive Web App (PWA). It does not require Google Play or Apple App Store downloads and takes up minimal device storage.
+      </p>
+
+      <table style="margin-bottom: 16px;">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Platform</th>
+            <th>Step-by-Step Installation Instructions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Android</strong><br>(Google Chrome)</td>
+            <td>
+              1. Navigate to: <code>https://galmeida-collab.github.io/FieldApp/</code><br>
+              2. Enter the team passcode <strong><code>AE2026</code></strong> and unlock the application.<br>
+              3. Tap the <strong>three vertical dots (⋮)</strong> in the top right corner.<br>
+              4. Tap <strong>Add to Home screen</strong> (or <em>Install app</em>).
+            </td>
+          </tr>
+          <tr>
+            <td><strong>iPhone / iPad</strong><br>(Apple Safari)</td>
+            <td>
+              1. Open <strong>Safari</strong> and navigate to: <code>https://galmeida-collab.github.io/FieldApp/</code><br>
+              2. Enter the team passcode <strong><code>AE2026</code></strong> and unlock the application.<br>
+              3. Tap the <strong>Share button</strong> (square icon with upward arrow) at the bottom.<br>
+              4. Scroll down and tap <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="font-size: 12px; color: var(--slate-600);">
+        <em>Note: Once added to your home screen, always open the app via the home screen icon. It runs full-screen without URL bars, operating exactly like a native app.</em>
+      </p>
+    </section>
+
+    <!-- Section 4 -->
+    <section>
+      <h2>4. End-of-Day Field Sync Protocol</h2>
+      <p>
+        To ensure accurate reporting for mission leadership and prayer supporters, every team member must complete the following end-of-day synchronization routine:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 15%;">Step</th>
+            <th style="width: 35%;">Action Required</th>
+            <th>Expected System Behaviour</th>
+            <th style="width: 10%; text-align: center;">Sign</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Review</strong></td>
+            <td>Open the <strong>Cache</strong> tab.</td>
+            <td>Shows total pending stories and outreach events waiting in device memory.</td>
+            <td style="text-align: center;">☐</td>
+          </tr>
+          <tr>
+            <td><strong>2. Connect</strong></td>
+            <td>Connect to reliable Wi-Fi or 4G/5G.</td>
+            <td>Status pill in the top header transitions from red (Offline) to green (Online).</td>
+            <td style="text-align: center;">☐</td>
+          </tr>
+          <tr>
+            <td><strong>3. Sync</strong></td>
+            <td>Tap <strong>Upload All (Wi-Fi)</strong>.</td>
+            <td>Uploads records and media; displays a success confirmation message once cleared.</td>
+            <td style="text-align: center;">☐</td>
+          </tr>
+          <tr>
+            <td><strong>4. Refresh</strong></td>
+            <td>Tap <strong>Refresh</strong> on the Home harvest card.</td>
+            <td>Synchronises authoritative month and year-to-date totals from the master sheet.</td>
+            <td style="text-align: center;">☐</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer Meta -->
+    <footer style="margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 11px; color: var(--slate-600);">
+      <span>African Enterprise South Africa • Field Operations Support</span>
+      <span>Security Passcode: AE2026 (Internal Team Confidential)</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>
