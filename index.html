@@ -21,6 +21,16 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
+    /* Guarantees date inputs render visibly on iOS Safari & Chrome */
+    input[type="date"] {
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 42px;
+      display: block;
+      width: 100%;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col justify-between antialiased selection:bg-orange-100 selection:text-orange-900 pb-20">
@@ -29,7 +39,7 @@
   <div id="gateOverlay" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl space-y-5 border border-slate-100">
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-50 border border-orange-200">
-        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="24 24">
+        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
       </div>
@@ -84,7 +94,7 @@
   <!-- TAB 0: HOME / LAUNCHPAD -->
   <main id="tab-home" class="max-w-md mx-auto w-full px-4 pt-3 space-y-4">
     
-    <!-- 1. LIVE HARVEST DASHBOARD BANNER: hero_saflag.jpg -->
+    <!-- LIVE HARVEST DASHBOARD BANNER -->
     <div class="relative overflow-hidden rounded-2xl p-4 text-white shadow-lg border border-slate-800/40">
       <img 
         src="hero_saflag.jpg?v=1" 
@@ -308,7 +318,7 @@
     </div>
   </main>
 
-  <!-- TAB 2: OUTREACH & REACHED DATA FORM (WITH DATE & DIGITAL MEDIA) -->
+  <!-- TAB 2: OUTREACH & REACHED DATA FORM -->
   <main id="tab-outreach" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
     <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md flex items-center justify-between">
       <img src="hero_outreach.jpg?v=1" alt="Outreach Data" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.src='hero2.jpeg?v=1'">
@@ -331,11 +341,15 @@
       </div>
 
       <div class="p-4 space-y-3">
-        <!-- Ministry Date Field (Crucial for Year/Month grouping) -->
+        <!-- Ministry Date Field -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Date</label>
-            <input type="date" id="outreachDate" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <input 
+              type="date" 
+              id="outreachDate" 
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+            >
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">AE Representative</label>
@@ -358,7 +372,6 @@
         <div>
           <label id="strataLabel" class="block text-xs font-bold text-slate-700 mb-1">Strata Sector / Channel</label>
           <select id="outreachStrata" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
-            <!-- Dynamic or Default Options -->
             <option value="Primary Schools">Primary Schools</option>
             <option value="High / Secondary Schools">High / Secondary Schools</option>
             <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
@@ -527,16 +540,22 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
-    // Set default date to today
+    // Immediate and reliable date initialization
+    function getTodayString() {
+      const d = new Date();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${d.getFullYear()}-${month}-${day}`;
+    }
+
     function initDates() {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getTodayString();
       const outreachDateEl = document.getElementById('outreachDate');
       const storyDateEl = document.getElementById('storyDate');
       if (outreachDateEl && !outreachDateEl.value) outreachDateEl.value = today;
       if (storyDateEl && !storyDateEl.value) storyDateEl.value = today;
     }
 
-    // Dynamic dropdown adjustment for Digital Media Evangelism
     function adjustPillarOptions(pillarVal) {
       const strataSelect = document.getElementById('outreachStrata');
       const strataLabel = document.getElementById('strataLabel');
@@ -565,8 +584,8 @@
           <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
           <option value="Churches & Pastor Fraternals">Churches & Pastor Fraternals</option>
           <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
-          <option value="Prisons & Correctional Facilities">Prisons & Correctional Facilities</option>
-          <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare Facilities</option>
+          <option value="Prisons & Correctional Facilities">Prisons & Correctional</option>
+          <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare</option>
           <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural</option>
         `;
         locationInput.placeholder = "e.g. Pietermaritzburg";
@@ -576,11 +595,11 @@
 
     // ACCESS GATE
     function checkGateAccess() {
+      initDates();
       const stored = localStorage.getItem('ae_field_passcode');
       const gate = document.getElementById('gateOverlay');
       if (stored === EXPECTED_PASSCODE) {
         gate.classList.add('hidden');
-        initDates();
         renderStoredTotals();
         fetchLiveTotals();
         updateHomeCacheCount();
@@ -660,13 +679,21 @@
       try {
         let stored = JSON.parse(localStorage.getItem('ae_outreach_totals') || '{}');
         const now = new Date();
-        const entryDate = entryDateStr ? new Date(entryDateStr) : now;
+        
+        let entryYear = now.getFullYear();
+        let entryMonth = now.getMonth();
 
-        if (entryDate.getFullYear() === now.getFullYear()) {
+        if (entryDateStr && entryDateStr.includes('-')) {
+          const parts = entryDateStr.split('-');
+          entryYear = parseInt(parts[0], 10);
+          entryMonth = parseInt(parts[1], 10) - 1;
+        }
+
+        if (entryYear === now.getFullYear()) {
           stored.yearReached = (stored.yearReached || 0) + newReached;
           stored.yearDecisions = (stored.yearDecisions || 0) + newDecisions;
 
-          if (entryDate.getMonth() === now.getMonth()) {
+          if (entryMonth === now.getMonth()) {
             stored.monthReached = (stored.monthReached || 0) + newReached;
             stored.monthDecisions = (stored.monthDecisions || 0) + newDecisions;
           }
@@ -758,6 +785,7 @@
     }
 
     function switchTab(tabId, el) {
+      initDates();
       ['tab-home', 'tab-stories', 'tab-outreach', 'tab-cache'].forEach(id => {
         const elTab = document.getElementById(id);
         if (elTab) elTab.classList.add('hidden');
@@ -841,7 +869,7 @@
         id: Date.now(),
         entryType: "story",
         passcode: passcode,
-        ministryDate: document.getElementById('storyDate').value || new Date().toISOString().split('T')[0],
+        ministryDate: document.getElementById('storyDate').value || getTodayString(),
         person: person,
         location: document.getElementById('personLocation').value.trim(),
         reporter: document.getElementById('reporterName').value.trim(),
@@ -864,6 +892,7 @@
       document.getElementById('videoUpload').value = '';
       document.getElementById('photoStatus').innerText = 'None selected';
       document.getElementById('videoStatus').innerText = 'None selected';
+      document.getElementById('storyDate').value = getTodayString();
       capturedPhotos = [];
       capturedVideos = [];
       document.querySelectorAll('.tag-pill.active').forEach(p => toggleTag(p));
@@ -877,7 +906,7 @@
       const passcode = localStorage.getItem('ae_field_passcode');
       if (passcode !== EXPECTED_PASSCODE) { lockApp(); return; }
 
-      const ministryDate = document.getElementById('outreachDate').value || new Date().toISOString().split('T')[0];
+      const ministryDate = document.getElementById('outreachDate').value || getTodayString();
       const rep = document.getElementById('outreachRep').value.trim();
       const location = document.getElementById('outreachLocation').value.trim();
 
@@ -916,6 +945,7 @@
       document.getElementById('countSalvations').value = 0;
       document.getElementById('countRecommit').value = 0;
       document.getElementById('countHealings').value = 0;
+      document.getElementById('outreachDate').value = getTodayString();
 
       alert('Outreach data saved! Harvest counters updated.');
       navigateTo('tab-home');
