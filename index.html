@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <!-- SECTION 1: STORY DETAILS -->
+    <!-- SECTION 1: STORY DETAILS & PASSCODE -->
     <div class="bg-white rounded-2xl border-2 border-orange-200/90 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-orange-50 to-amber-50/50 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -92,10 +92,20 @@
       </div>
       
       <div class="p-4 space-y-3">
+        <!-- Team Passcode Field -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+            <span>Team Passcode</span>
+            <span class="text-[10px] text-slate-400 font-normal">Stored on device</span>
+          </label>
+          <input type="password" id="fieldPasscode" placeholder="Enter AE Passcode" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+        </div>
+
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Person's Full Name</label>
           <input type="text" id="personName" placeholder="e.g. Sipho Ndlovu" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
         </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Location / Field</label>
@@ -147,7 +157,7 @@
       </div>
     </div>
 
-    <!-- SECTION 3: MEDIA & SAVE (Separate Photo & Video Pickers) -->
+    <!-- SECTION 3: MEDIA & SAVE -->
     <div class="bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3 border-b border-emerald-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -217,7 +227,7 @@
 
   <!-- Footer Versioning -->
   <footer class="py-4 text-center text-xs font-semibold text-slate-400">
-    African Enterprise South Africa • v1.0.0
+    African Enterprise South Africa • v1.1.0
   </footer>
 
   <!-- Bottom Navigation -->
@@ -247,6 +257,14 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
+
+    // Auto-load remembered team passcode from device storage
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPasscode = localStorage.getItem('ae_field_passcode');
+      if (savedPasscode) {
+        document.getElementById('fieldPasscode').value = savedPasscode;
+      }
+    });
 
     // --- INDEXEDDB IMPLEMENTATION (Stores Large Media Safely) ---
     const DB_NAME = 'AE_Frontline_DB';
@@ -359,6 +377,14 @@
     }
 
     async function saveToOfflineCache() {
+      const passcode = document.getElementById('fieldPasscode').value.trim();
+      if (!passcode) {
+        alert('Please enter the Team Passcode before saving.');
+        return;
+      }
+      // Save passcode for subsequent records
+      localStorage.setItem('ae_field_passcode', passcode);
+
       const person = document.getElementById('personName').value.trim();
       if (!person) { alert('Please enter a name.'); return; }
 
@@ -367,6 +393,7 @@
 
       const entry = {
         id: Date.now(),
+        passcode: passcode,
         person: person,
         location: document.getElementById('personLocation').value.trim(),
         reporter: document.getElementById('reporterName').value.trim(),
@@ -381,7 +408,7 @@
       try {
         await dbSave(entry);
 
-        // Reset inputs
+        // Reset inputs (leaves passcode and reporter name for convenience)
         document.getElementById('personName').value = '';
         document.getElementById('personLocation').value = '';
         document.getElementById('beforeLife').value = '';
