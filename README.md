@@ -2,6 +2,8 @@
 
 A lightweight, offline-first progressive web application designed for African Enterprise (AE) field staff to capture testimonies during mission outreaches.
 
+The App also allows staff members to capture Outreach data that once captured presents a live update on people reached through the year and during the current month.
+
 ## Features
 - Complete offline data caching via LocalStorage.
 - Silent UI interactions suited for quiet counseling and hospital environments.
