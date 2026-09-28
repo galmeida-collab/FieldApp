@@ -1,6 +1,6 @@
 {
-  "name": "African Enterprise Field App",
-  "short_name": "AE Field",
+  "name": "Punch Field App",
+  "short_name": "Punch",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0F172A",
