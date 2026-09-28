@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ae-stories-v1';
+const CACHE_NAME = 'ae-stories-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -14,8 +14,19 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
+// Purge any outdated caches when a new version activates
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener('fetch', (event) => {
