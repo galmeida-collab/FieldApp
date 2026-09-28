@@ -21,11 +21,9 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-    /* Guarantees date inputs render visibly on iOS Safari & Chrome */
     input[type="date"] {
+      min-height: 44px;
       -webkit-appearance: none;
-      appearance: none;
-      min-height: 42px;
       display: block;
       width: 100%;
       background-color: #f8fafc;
@@ -120,7 +118,7 @@
         <div class="bg-black/45 backdrop-blur-md rounded-xl p-2.5 border border-white/15 shadow-inner">
           <span id="statMonthLabel" class="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 block">Current Month</span>
           <div class="mt-1">
-            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Reached / Views</span>
+            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Total Reached</span>
             <span id="statMonthReached" class="text-xl sm:text-2xl font-black text-white leading-none drop-shadow-xs">0</span>
           </div>
           <div class="mt-2 pt-1.5 border-t border-white/15">
@@ -133,7 +131,7 @@
         <div class="bg-black/45 backdrop-blur-md rounded-xl p-2.5 border border-white/15 shadow-inner">
           <span id="statYearLabel" class="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 block">Year to Date</span>
           <div class="mt-1">
-            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Reached / Views</span>
+            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Total Reached</span>
             <span id="statYearReached" class="text-xl sm:text-2xl font-black text-amber-300 leading-none drop-shadow-xs">0</span>
           </div>
           <div class="mt-2 pt-1.5 border-t border-white/15">
@@ -152,15 +150,12 @@
 
     <!-- SIDE-BY-SIDE DUAL HERO GRID -->
     <div class="grid grid-cols-2 gap-3 w-full">
-      <!-- Hero Card 1: Frontline Stories -->
       <div onclick="navigateTo('tab-stories')" class="relative overflow-hidden rounded-2xl p-4 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
         <img src="hero_frontline.jpg?v=1" alt="Frontline Stories" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='hero.jpg?v=1'">
         <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 via-orange-900/75 to-black/45"></div>
 
         <div class="relative z-10 space-y-1.5">
-          <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">
-            Frontline Stories
-          </h3>
+          <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">Frontline Stories</h3>
           <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
             Record testimonies, life encounters, and attach media.
           </p>
@@ -172,17 +167,14 @@
         </div>
       </div>
 
-      <!-- Hero Card 2: Outreach Data -->
       <div onclick="navigateTo('tab-outreach')" class="relative overflow-hidden rounded-2xl p-4 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
         <img src="hero_outreach.jpg?v=1" alt="Outreach Data" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='hero2.jpeg?v=1'">
         <div class="absolute inset-0 bg-gradient-to-t from-amber-950/95 via-orange-950/80 to-black/45"></div>
 
         <div class="relative z-10 space-y-1.5">
-          <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">
-            Outreach Data
-          </h3>
+          <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">Outreach Data</h3>
           <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
-            Physical outreaches & digital media engagement numbers.
+            Physical rallies, campaigns & digital reach reports.
           </p>
         </div>
 
@@ -225,7 +217,7 @@
       <div class="bg-gradient-to-r from-orange-50 to-amber-50/50 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-orange-600 text-white text-xs font-black flex items-center justify-center shadow-xs">1</span>
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Encounter Context</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-orange-950">Encounter Details</h2>
         </div>
         <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md flex items-center gap-1">Unlocked</span>
       </div>
@@ -234,11 +226,11 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Date</label>
-            <input type="date" id="storyDate" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <input type="date" id="storyDate" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Reporter Name</label>
-            <input type="text" id="reporterName" placeholder="Your Name" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <input type="text" id="reporterName" placeholder="Your Name" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
         </div>
 
@@ -271,7 +263,7 @@
             <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Salvation</button>
             <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Recommitment</button>
             <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Healing</button>
-            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Digital Inquiry</button>
+            <button type="button" onclick="toggleTag(this)" class="tag-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-all">+ Digital Follow-up</button>
           </div>
         </div>
 
@@ -325,12 +317,12 @@
       <div class="absolute inset-0 bg-gradient-to-r from-amber-950/95 via-orange-950/85 to-black/40"></div>
       <div class="relative z-10 text-left">
         <h2 class="text-xl font-black uppercase text-white">Outreach Data</h2>
-        <p class="text-[11px] text-orange-200 font-medium">Physical rallies, schools & digital media</p>
+        <p class="text-[11px] text-orange-200 font-medium">Physical rallies, campaigns & digital reach</p>
       </div>
       <button onclick="navigateTo('tab-home')" class="relative z-10 px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition-all">✕ Close</button>
     </div>
 
-    <!-- Section 1: Field & Platform Context -->
+    <!-- Section 1: Field Context -->
     <div class="bg-white rounded-2xl border-2 border-orange-200/90 shadow-sm overflow-hidden text-left">
       <div class="bg-gradient-to-r from-orange-50 to-amber-50/60 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -341,7 +333,7 @@
       </div>
 
       <div class="p-4 space-y-3">
-        <!-- Ministry Date Field -->
+        <!-- Ministry Date & AE Representative -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Date</label>
@@ -357,53 +349,44 @@
           </div>
         </div>
 
+        <!-- Official AE Ministry Pillars -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Pillar</label>
-          <select id="outreachPillar" onchange="adjustPillarOptions(this.value)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
-            <option value="Proclamation Evangelism">Proclamation Evangelism</option>
-            <option value="Digital Media Evangelism">Digital Reach</option>
-            <option value="Fox Fire">Fox Fire</option>
-	    <option value="Leadership Training & Development">Leadership Training</option>
-            <option value="Social Action & Aid">Social Action & Community Aid</option>
+          <select id="outreachPillar" onchange="handlePillarChange(this.value)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <option value="Proclamation Evangelism">Proclamation Evangelism (Crusades / Rallies)</option>
+            <option value="Digital Media Evangelism">Digital Media Evangelism (YouTube, Socials)</option>
+            <option value="Leadership Development">Leadership Development (Foxes & Pastors)</option>
+            <option value="Youth & Schools Ministry">Youth & Schools Ministry</option>
             <option value="Peacebuilding & Reconciliation">Peacebuilding & Reconciliation</option>
+            <option value="Social Action & Upliftment">Social Action & Community Upliftment</option>
           </select>
         </div>
 
+        <!-- Strata Sector -->
         <div>
-          <label id="strataLabel" class="block text-xs font-bold text-slate-700 mb-1">Strata Sector / Channel</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Strata Sector</label>
           <select id="outreachStrata" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
             <option value="Primary Schools">Primary Schools</option>
             <option value="High / Secondary Schools">High / Secondary Schools</option>
             <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
+            <option value="Churches & Pastor Fraternals">Churches & Pastor Fraternals</option>
             <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
-	    <option value="Children's Home">Children's Home</option>
-	    <option value="Orphanage">Orphanage</option>
-	    <option value="Shelter / Place of Safety">Shelter / Place of Safety</option>
-	    <option value="Old Age Home">Old Age Home</option>
-	    <option value="National Government Leaders">National Government Leaders</option>
-	    <option value="Provincial Government Leaders">Provincial Government Leaders</option>
-	    <option value="Local Government Leaders">National Government Leaders</option>
-	    <option value="Men's Meeting">Men's Meeting</option>
-	    <option value="Women's Meeting">Womens's Meeting</option>
-	    <option value="Bible Study Group">Bible Study Group</option>
-            <option value="Church Service">Churches Service</option>
-	    <option value="Pastor Fraternals">Pastor Fraternals</option>
             <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
-            <option value="Prisons & Correctional Facilities">Prisons & Correctional</option>
-            <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare</option>
-	    <option value="Safety & Security Facilities">SAPS & Military Facilities</option>
+            <option value="Prisons & Correctional Facilities">Prisons & Correctional Facilities</option>
+            <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare Facilities</option>
             <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural</option>
+            <option value="Digital Reach (Monthly Platform Reports)">Digital Reach (Monthly Platform Reports)</option>
           </select>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label id="locationLabel" class="block text-xs font-bold text-slate-700 mb-1">Location / Platform</label>
-            <input type="text" id="outreachLocation" placeholder="e.g. Pietermaritzburg / YouTube" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Location</label>
+            <input type="text" id="outreachLocation" placeholder="e.g. Pietermaritzburg" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
           <div>
-            <label id="venueLabel" class="block text-xs font-bold text-slate-700 mb-1">Venue / Campaign Handle</label>
-            <input type="text" id="outreachVenue" placeholder="e.g. Town Hall / Live broadcast" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Venue Name</label>
+            <input type="text" id="outreachVenue" placeholder="e.g. Grace Generation" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30">
           </div>
         </div>
       </div>
@@ -420,11 +403,12 @@
       </div>
 
       <div class="p-4 space-y-4">
+        
+        <!-- Row 1: Reached (Physical) & Digital Reach -->
         <div class="grid grid-cols-2 gap-3">
-          
-          <!-- Total Reached / Views -->
-          <div class="bg-amber-50/40 p-3 rounded-xl border border-amber-200/80 text-center">
-            <label id="reachCounterLabel" class="block text-[11px] font-extrabold text-amber-950 uppercase tracking-tight mb-1.5">Total Reached / Views</label>
+          <!-- In-person Reached (Col H) -->
+          <div class="bg-amber-50/50 p-3 rounded-xl border border-amber-200 text-center">
+            <label class="block text-[11px] font-extrabold text-amber-950 uppercase tracking-tight mb-1.5">Reached (In-Person)</label>
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countReached', -10)" class="w-8 h-8 rounded-lg bg-white border border-amber-300 font-black text-amber-900 active:bg-amber-100 transition-all">-</button>
               <input type="number" id="countReached" value="0" min="0" class="w-16 text-center font-black text-lg text-slate-900 bg-transparent focus:outline-none">
@@ -432,9 +416,22 @@
             </div>
           </div>
 
-          <!-- Salvations -->
+          <!-- Digital Reach (Col N) -->
+          <div class="bg-sky-50/50 p-3 rounded-xl border border-sky-200 text-center">
+            <label class="block text-[11px] font-extrabold text-sky-950 uppercase tracking-tight mb-1.5">Digital Reach</label>
+            <div class="flex items-center justify-between gap-1">
+              <button type="button" onclick="stepVal('countDigital', -50)" class="w-8 h-8 rounded-lg bg-white border border-sky-300 font-black text-sky-900 active:bg-sky-100 transition-all">-</button>
+              <input type="number" id="countDigital" value="0" min="0" class="w-16 text-center font-black text-lg text-sky-800 bg-transparent focus:outline-none">
+              <button type="button" onclick="stepVal('countDigital', 50)" class="w-8 h-8 rounded-lg bg-white border border-sky-300 font-black text-sky-900 active:bg-sky-100 transition-all">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Salvations & Recommitments -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Salvations (Col I) -->
           <div class="bg-emerald-50/50 p-3 rounded-xl border border-emerald-200 text-center">
-            <label class="block text-[11px] font-extrabold text-emerald-900 uppercase tracking-tight mb-1.5">Salvations / Online</label>
+            <label class="block text-[11px] font-extrabold text-emerald-900 uppercase tracking-tight mb-1.5">Salvations</label>
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countSalvations', -1)" class="w-8 h-8 rounded-lg bg-white border border-emerald-300 font-black text-emerald-800 active:bg-emerald-100 transition-all">-</button>
               <input type="number" id="countSalvations" value="0" min="0" class="w-16 text-center font-black text-lg text-emerald-700 bg-transparent focus:outline-none">
@@ -442,7 +439,7 @@
             </div>
           </div>
 
-          <!-- Recommitments Prayer -->
+          <!-- Recommitments (Col J) -->
           <div class="bg-orange-50/60 p-3 rounded-xl border border-orange-200 text-center">
             <label class="block text-[11px] font-extrabold text-orange-950 uppercase tracking-tight mb-1.5">Recommitments</label>
             <div class="flex items-center justify-between gap-1">
@@ -451,10 +448,13 @@
               <button type="button" onclick="stepVal('countRecommit', 1)" class="w-8 h-8 rounded-lg bg-white border border-orange-300 font-black text-orange-800 active:bg-orange-100 transition-all">+</button>
             </div>
           </div>
+        </div>
 
-          <!-- Healings / Prayers -->
+        <!-- Row 3: Healings & Prayer -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Healings (Col L) -->
           <div class="bg-amber-100/40 p-3 rounded-xl border border-amber-300/70 text-center">
-            <label class="block text-[11px] font-extrabold text-amber-900 uppercase tracking-tight mb-1.5">Healings / Prayers</label>
+            <label class="block text-[11px] font-extrabold text-amber-900 uppercase tracking-tight mb-1.5">Healings</label>
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countHealings', -1)" class="w-8 h-8 rounded-lg bg-white border border-amber-400 font-black text-amber-900 active:bg-amber-100 transition-all">-</button>
               <input type="number" id="countHealings" value="0" min="0" class="w-16 text-center font-black text-lg text-amber-800 bg-transparent focus:outline-none">
@@ -462,11 +462,20 @@
             </div>
           </div>
 
+          <!-- Prayer (Col M) -->
+          <div class="bg-purple-50/50 p-3 rounded-xl border border-purple-200 text-center">
+            <label class="block text-[11px] font-extrabold text-purple-950 uppercase tracking-tight mb-1.5">Prayer</label>
+            <div class="flex items-center justify-between gap-1">
+              <button type="button" onclick="stepVal('countPrayer', -1)" class="w-8 h-8 rounded-lg bg-white border border-purple-300 font-black text-purple-800 active:bg-purple-100 transition-all">-</button>
+              <input type="number" id="countPrayer" value="0" min="0" class="w-16 text-center font-black text-lg text-purple-700 bg-transparent focus:outline-none">
+              <button type="button" onclick="stepVal('countPrayer', 1)" class="w-8 h-8 rounded-lg bg-white border border-purple-300 font-black text-purple-800 active:bg-purple-100 transition-all">+</button>
+            </div>
+          </div>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Key Resolutions / Links / Notes</label>
-          <textarea id="outreachNotes" rows="2" placeholder="Notes, broadcast link, or follow-up details..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 resize-none"></textarea>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Notes</label>
+          <textarea id="outreachNotes" rows="2" placeholder="Resolutions, observations & ministry notes..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 resize-none"></textarea>
         </div>
 
         <button onclick="saveOutreachOffline()" class="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
@@ -503,7 +512,7 @@
 
   <!-- Footer Versioning -->
   <footer class="py-4 text-center text-xs font-semibold text-slate-400">
-    African Enterprise South Africa • v1.3.1
+    African Enterprise South Africa • v1.3.4
   </footer>
 
   <!-- BOTTOM NAVIGATION -->
@@ -552,7 +561,6 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
-    // Immediate and reliable date initialization
     function getTodayString() {
       const d = new Date();
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -568,40 +576,19 @@
       if (storyDateEl && !storyDateEl.value) storyDateEl.value = today;
     }
 
-    function adjustPillarOptions(pillarVal) {
+    function handlePillarChange(pillarVal) {
       const strataSelect = document.getElementById('outreachStrata');
-      const strataLabel = document.getElementById('strataLabel');
       const locationInput = document.getElementById('outreachLocation');
       const venueInput = document.getElementById('outreachVenue');
 
       if (pillarVal === 'Digital Media Evangelism') {
-        strataLabel.innerText = "Social Platform / Channel";
-        strataSelect.innerHTML = `
-          <option value="YouTube">YouTube</option>
-          <option value="Facebook">Facebook</option>
-          <option value="Instagram">Instagram</option>
-          <option value="TikTok">TikTok</option>
-          <option value="X (Twitter)">X (Twitter)</option>
-          <option value="WhatsApp Community">WhatsApp Community</option>
-          <option value="Podcast / Audio Stream">Podcast / Audio Stream</option>
-        `;
-        locationInput.placeholder = "e.g. YouTube Live / Channel URL";
-        venueInput.placeholder = "e.g. @AfricanEnterpriseSA / Campaign";
+        strataSelect.value = "Digital Reach (Monthly Platform Reports)";
+        locationInput.placeholder = "e.g. All Social Channels";
+        venueInput.placeholder = "e.g. September Meta / YT Report";
       } else {
-        strataLabel.innerText = "Strata Sector";
-        strataSelect.innerHTML = `
-          <option value="Primary Schools">Primary Schools</option>
-          <option value="High / Secondary Schools">High / Secondary Schools</option>
-          <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
-          <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
-          <option value="Churches & Pastor Fraternals">Churches & Pastor Fraternals</option>
-          <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
-          <option value="Prisons & Correctional Facilities">Prisons & Correctional</option>
-          <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare</option>
-          <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural</option>
-        `;
+        strataSelect.value = "Primary Schools";
         locationInput.placeholder = "e.g. Pietermaritzburg";
-        venueInput.placeholder = "e.g. Eastwood High School";
+        venueInput.placeholder = "e.g. Grace Generation";
       }
     }
 
@@ -646,7 +633,7 @@
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
 
-    // TOTALS LOGIC
+    // RUNNING TOTALS
     function renderStoredTotals() {
       try {
         const stored = JSON.parse(localStorage.getItem('ae_outreach_totals') || '{}');
@@ -822,7 +809,7 @@
       window.scrollTo(0, 0);
     }
 
-    // STORY CAPTURE
+    // STORIES LOGIC
     let capturedPhotos = [];
     let capturedVideos = [];
 
@@ -913,7 +900,7 @@
       navigateTo('tab-home');
     }
 
-    // OUTREACH CAPTURE
+    // OUTREACH LOGIC
     async function saveOutreachOffline() {
       const passcode = localStorage.getItem('ae_field_passcode');
       if (passcode !== EXPECTED_PASSCODE) { lockApp(); return; }
@@ -922,10 +909,13 @@
       const rep = document.getElementById('outreachRep').value.trim();
       const location = document.getElementById('outreachLocation').value.trim();
 
-      if (!location) { alert('Please enter a location or digital platform.'); return; }
+      if (!location) { alert('Please enter a location.'); return; }
       if (!rep) { alert('Please enter the AE Representative name.'); return; }
 
       const reached = parseInt(document.getElementById('countReached').value, 10) || 0;
+      const digitalReach = parseInt(document.getElementById('countDigital').value, 10) || 0;
+      const totalCombinedReached = reached + digitalReach;
+
       const salvations = parseInt(document.getElementById('countSalvations').value, 10) || 0;
       const recommitments = parseInt(document.getElementById('countRecommit').value, 10) || 0;
       const combinedDecisions = salvations + recommitments;
@@ -941,22 +931,26 @@
         strata: document.getElementById('outreachStrata').value,
         representative: rep,
         reached: reached,
+        digitalReach: digitalReach,
         salvations: salvations,
         recommitments: recommitments,
         healings: parseInt(document.getElementById('countHealings').value, 10) || 0,
+        prayer: parseInt(document.getElementById('countPrayer').value, 10) || 0,
         notes: document.getElementById('outreachNotes').value.trim(),
         savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       await dbSave(entry);
-      incrementLocalCounters(reached, combinedDecisions, ministryDate);
+      incrementLocalCounters(totalCombinedReached, combinedDecisions, ministryDate);
 
       document.getElementById('outreachVenue').value = '';
       document.getElementById('outreachNotes').value = '';
       document.getElementById('countReached').value = 0;
+      document.getElementById('countDigital').value = 0;
       document.getElementById('countSalvations').value = 0;
       document.getElementById('countRecommit').value = 0;
       document.getElementById('countHealings').value = 0;
+      document.getElementById('countPrayer').value = 0;
       document.getElementById('outreachDate').value = getTodayString();
 
       alert('Outreach data saved! Harvest counters updated.');
@@ -981,12 +975,13 @@
         
         if (item.entryType === 'outreach') {
           const totalDecisions = (item.salvations || 0) + (item.recommitments || 0);
+          const totalReach = (item.reached || 0) + (item.digitalReach || 0);
           div.innerHTML = `
             <div class="flex justify-between items-start">
               <strong class="text-sm font-bold text-orange-950">${item.pillar}</strong>
               <span class="text-[10px] bg-orange-100 text-orange-900 px-2 py-0.5 rounded font-bold">${item.ministryDate || 'Recent'}</span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">${item.location} (${item.venue || item.strata}) • Reached/Views: ${item.reached} | Decisions: ${totalDecisions} | Healings: ${item.healings}</p>
+            <p class="text-xs text-slate-500 mt-1">${item.location} (${item.venue || item.strata}) • Total: ${totalReach} (In-person: ${item.reached || 0} | Digital: ${item.digitalReach || 0}) | Decisions: ${totalDecisions} | Prayer: ${item.prayer || 0}</p>
           `;
         } else {
           const mediaCount = (item.media && item.media.length) ? ` • ${item.media.length} file(s)` : '';
