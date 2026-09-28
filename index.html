@@ -45,24 +45,18 @@
     
     <!-- Dynamic Hero Banner with Centred Large Title & Flanked Subtitle -->
     <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-md min-h-[190px] flex flex-col justify-center items-center text-center">
-      <!-- Background Photo -->
       <img 
         src="hero.jpg" 
         alt="Frontline Outreach" 
         class="absolute inset-0 w-full h-full object-cover object-center"
         onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80'"
       >
-      
-      <!-- Brand Gradient Darkener Overlay -->
       <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 via-orange-900/60 to-black/35"></div>
 
-      <!-- Centred Content -->
       <div class="relative z-10 w-full px-2 space-y-2.5">
         <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-none text-white drop-shadow-md uppercase sm:normal-case">
           Frontline Stories
         </h2>
-        
-        <!-- Flanked Subtitle -->
         <div class="flex items-center justify-center gap-2.5 w-full max-w-sm mx-auto">
           <span class="h-[1.5px] flex-1 bg-gradient-to-r from-transparent via-orange-300/60 to-orange-200 rounded-full"></span>
           <p class="text-xs sm:text-sm text-orange-100 font-semibold tracking-wide drop-shadow-xs whitespace-normal sm:whitespace-nowrap px-1">
@@ -73,7 +67,7 @@
       </div>
     </div>
 
-    <!-- SECTION 1: STORY DETAILS (Warm Orange Accent) -->
+    <!-- SECTION 1: STORY DETAILS -->
     <div class="bg-white rounded-2xl border-2 border-orange-200/90 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-orange-50 to-amber-50/50 px-4 py-3 border-b border-orange-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -91,7 +85,7 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Location / Field</label>
-            <input type="text" id="personLocation" placeholder="e.g. Soweto" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
+            <input type="text" id="personLocation" placeholder="e.g. Pietermaritzburg" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 font-medium transition-all">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Reporter Name</label>
@@ -101,7 +95,7 @@
       </div>
     </div>
 
-    <!-- SECTION 2: TESTIMONY FOCUS & STORY (Charcoal Slate Accent) -->
+    <!-- SECTION 2: TESTIMONY FOCUS & STORY -->
     <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-slate-100 to-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -139,20 +133,40 @@
       </div>
     </div>
 
-    <!-- SECTION 3: MEDIA & SAVE (Emerald Green Accent) -->
+    <!-- SECTION 3: MEDIA & SAVE (Separate Photo & Video Boxes) -->
     <div class="bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3 border-b border-emerald-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs font-black flex items-center justify-center shadow-xs">3</span>
-          <h2 class="text-xs font-extrabold uppercase tracking-wider text-emerald-950">Attach & Save</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-emerald-950">Field Media & Save</h2>
         </div>
         <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">Offline Store</span>
       </div>
 
       <div class="p-4 space-y-3.5">
-        <div class="border-2 border-dashed border-emerald-300/80 rounded-xl p-3 bg-emerald-50/30">
-          <label class="block text-xs font-bold text-slate-700 mb-1">Attach Field Photos</label>
-          <input type="file" id="mediaUpload" accept="image/*,video/*" multiple class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+        
+        <!-- Box 1: Photos -->
+        <div class="border-2 border-dashed border-emerald-300 rounded-xl p-3 bg-emerald-50/30">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              Attach Photos
+            </span>
+            <span id="photoStatus" class="text-[10px] font-bold text-slate-500">None selected</span>
+          </div>
+          <input type="file" id="photoUpload" accept="image/*" multiple class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+        </div>
+
+        <!-- Box 2: Video Clips -->
+        <div class="border-2 border-dashed border-sky-300 rounded-xl p-3 bg-sky-50/30">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              Attach Video Clips
+            </span>
+            <span id="videoStatus" class="text-[10px] font-bold text-slate-500">None selected</span>
+          </div>
+          <input type="file" id="videoUpload" accept="video/*" multiple class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-sky-600 file:text-white hover:file:bg-sky-700 cursor-pointer">
         </div>
 
         <button onclick="saveToOfflineCache()" class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
@@ -166,7 +180,6 @@
   <!-- TAB 2: CACHE -->
   <main id="tab-cache" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
     <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm text-center space-y-3">
-      <!-- Archive Drawer Hero Icon -->
       <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 border border-orange-200/60 shadow-xs">
         <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
           <path opacity="0.25" d="M4 3h16a2 2 0 012 2v3H2V5a2 2 0 012-2z"/>
@@ -194,7 +207,7 @@
     African Enterprise South Africa • v1.0.0
   </footer>
 
-  <!-- Bottom Navigation with Option B Solid Icons -->
+  <!-- Bottom Navigation -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40">
     <div class="max-w-md mx-auto grid grid-cols-2 h-16">
       
@@ -224,27 +237,47 @@
   </nav>
 
   <script>
-    // Live Google Apps Script Webhook URL
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
 
-    let capturedMedia = [];
+    let capturedPhotos = [];
+    let capturedVideos = [];
 
-    // Listen for photo uploads and convert to base64 for offline storage
-    document.getElementById('mediaUpload').addEventListener('change', function(e) {
-      capturedMedia = [];
-      const files = Array.from(e.target.files);
+    // Helper to read files as Base64 strings
+    function readFilesAsync(fileList, targetArray, statusElementId) {
+      targetArray.length = 0;
+      const files = Array.from(fileList);
+      if (files.length === 0) {
+        document.getElementById(statusElementId).innerText = 'None selected';
+        return;
+      }
+      document.getElementById(statusElementId).innerText = `Loading ${files.length} file(s)...`;
       
+      let loaded = 0;
       files.forEach(file => {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          capturedMedia.push({
+          targetArray.push({
             name: file.name,
-            type: file.type,
+            type: file.type || 'application/octet-stream',
             data: evt.target.result
           });
+          loaded++;
+          if (loaded === files.length) {
+            document.getElementById(statusElementId).innerText = `${files.length} attached`;
+          }
         };
         reader.readAsDataURL(file);
       });
+    }
+
+    // Photo input listener
+    document.getElementById('photoUpload').addEventListener('change', function(e) {
+      readFilesAsync(e.target.files, capturedPhotos, 'photoStatus');
+    });
+
+    // Video input listener
+    document.getElementById('videoUpload').addEventListener('change', function(e) {
+      readFilesAsync(e.target.files, capturedVideos, 'videoStatus');
     });
 
     function switchTab(tabId, el) {
@@ -279,6 +312,9 @@
 
       const activeTags = Array.from(document.querySelectorAll('.tag-pill.active')).map(p => p.innerText.replace('+ ', ''));
 
+      // Combine both photos and videos for syncing
+      const allMedia = [...capturedPhotos, ...capturedVideos];
+
       const entry = {
         id: Date.now(),
         person: person,
@@ -288,7 +324,7 @@
         beforeLife: document.getElementById('beforeLife').value.trim(),
         whatHappened: document.getElementById('encounter').value.trim(),
         nowFeelings: document.getElementById('feelNow').value.trim(),
-        media: capturedMedia,
+        media: allMedia,
         savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -297,19 +333,23 @@
         items.push(entry);
         localStorage.setItem('ae_testimonies', JSON.stringify(items));
 
-        // Reset form fields
+        // Reset inputs
         document.getElementById('personName').value = '';
         document.getElementById('personLocation').value = '';
         document.getElementById('beforeLife').value = '';
         document.getElementById('encounter').value = '';
         document.getElementById('feelNow').value = '';
-        document.getElementById('mediaUpload').value = '';
-        capturedMedia = [];
+        document.getElementById('photoUpload').value = '';
+        document.getElementById('videoUpload').value = '';
+        document.getElementById('photoStatus').innerText = 'None selected';
+        document.getElementById('videoStatus').innerText = 'None selected';
+        capturedPhotos = [];
+        capturedVideos = [];
         document.querySelectorAll('.tag-pill.active').forEach(p => toggleTag(p));
 
         alert('Testimony and media saved offline! Go to the Cache tab when you reach Wi-Fi.');
       } catch (err) {
-        alert('Storage quota exceeded. Please upload pending stories before attaching more media.');
+        alert('Storage limit reached on device. Please upload your pending testimonies before attaching more videos.');
       }
     }
 
@@ -358,7 +398,7 @@
           await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(item)
           });
           successCount++;
@@ -374,7 +414,7 @@
       syncBtn.innerHTML = '<span>Upload All (Wi-Fi)</span>';
 
       if (failedItems.length === 0) {
-        alert(`Success! All ${successCount} story records and media were uploaded directly to your Google Drive and Sheet.`);
+        alert(`Success! Uploaded ${successCount} story records and media directly to your Google Drive and Sheet.`);
       } else {
         alert(`Uploaded ${successCount} stories. ${failedItems.length} failed and remain stored offline.`);
       }
