@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ae-field-v1.3';
+const CACHE_NAME = 'ae-field-v1.3.1';
 
 // Core assets required for offline-first operation
 const ASSETS_TO_CACHE = [
