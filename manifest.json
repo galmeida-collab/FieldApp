@@ -8,14 +8,8 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "AESA General Name Logo 2022.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "AESA General Name Logo 2022.png",
-      "sizes": "512x512",
+      "src": "punch-icon.png",
+      "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }

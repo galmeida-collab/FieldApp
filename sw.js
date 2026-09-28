@@ -1,10 +1,10 @@
-const CACHE_NAME = 'punch-field-v1.3.8';
+const CACHE_NAME = 'punch-field-v1.3.9';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './AESA General Name Logo 2022.png',
+  './punch-icon.png',
   './hero_saflag.jpg',
   './hero_frontline.jpg',
   './hero_outreach.jpg'
@@ -14,7 +14,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[ServiceWorker] Caching shell v1.3.8');
+      console.log('[ServiceWorker] Caching shell v1.3.9');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
