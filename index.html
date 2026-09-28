@@ -20,17 +20,14 @@
   <!-- Top Header with Centred 'Mission Field Tool' -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
     <div class="max-w-md mx-auto grid grid-cols-3 items-center">
-      <!-- Left: Logo -->
       <div class="flex items-center justify-start">
         <img src="AESA General Name Logo 2022.png" alt="AE Emblem" class="h-7 w-auto object-contain" onerror="this.parentElement.innerHTML='<span class=\'font-black text-orange-600 text-base\'>AE</span>'">
       </div>
 
-      <!-- Centre: Mission Field Tool Title -->
       <div class="text-center">
         <h1 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Mission Field Tool</h1>
       </div>
 
-      <!-- Right: Status Badge -->
       <div class="flex items-center justify-end">
         <div id="connStatus" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -133,7 +130,7 @@
       </div>
     </div>
 
-    <!-- SECTION 3: MEDIA & SAVE (Separate Photo & Video Boxes) -->
+    <!-- SECTION 3: MEDIA & SAVE -->
     <div class="bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3 border-b border-emerald-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -144,7 +141,6 @@
       </div>
 
       <div class="p-4 space-y-3.5">
-        
         <!-- Box 1: Photos -->
         <div class="border-2 border-dashed border-emerald-300 rounded-xl p-3 bg-emerald-50/30">
           <div class="flex items-center justify-between mb-1.5">
@@ -157,7 +153,7 @@
           <input type="file" id="photoUpload" accept="image/*" multiple class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
         </div>
 
-        <!-- Box 2: Video Clips -->
+        <!-- Box 2: Videos -->
         <div class="border-2 border-dashed border-sky-300 rounded-xl p-3 bg-sky-50/30">
           <div class="flex items-center justify-between mb-1.5">
             <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
@@ -210,8 +206,6 @@
   <!-- Bottom Navigation -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40">
     <div class="max-w-md mx-auto grid grid-cols-2 h-16">
-      
-      <!-- Capture Tab Button -->
       <button onclick="switchTab('tab-capture', this)" class="nav-btn flex flex-col items-center justify-center text-orange-600 font-bold transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -222,7 +216,6 @@
         <span class="text-[11px] font-bold mt-0.5 tracking-tight">Capture</span>
       </button>
 
-      <!-- Cache Tab Button -->
       <button onclick="switchTab('tab-cache', this)" class="nav-btn flex flex-col items-center justify-center text-slate-400 font-semibold hover:text-slate-600 transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -232,17 +225,65 @@
         </div>
         <span class="text-[11px] font-bold mt-0.5 tracking-tight">Cache</span>
       </button>
-
     </div>
   </nav>
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
 
+    // --- INDEXEDDB IMPLEMENTATION (Stores Large Media Safely) ---
+    const DB_NAME = 'AE_Frontline_DB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'stories';
+
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function dbSave(story) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).put(story);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function dbGetAll() {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function dbDelete(id) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).delete(id);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    // --- FILE HANDLING ---
     let capturedPhotos = [];
     let capturedVideos = [];
 
-    // Helper to read files as Base64 strings
     function readFilesAsync(fileList, targetArray, statusElementId) {
       targetArray.length = 0;
       const files = Array.from(fileList);
@@ -270,12 +311,10 @@
       });
     }
 
-    // Photo input listener
     document.getElementById('photoUpload').addEventListener('change', function(e) {
       readFilesAsync(e.target.files, capturedPhotos, 'photoStatus');
     });
 
-    // Video input listener
     document.getElementById('videoUpload').addEventListener('change', function(e) {
       readFilesAsync(e.target.files, capturedVideos, 'videoStatus');
     });
@@ -302,17 +341,11 @@
       pill.classList.toggle('active');
     }
 
-    function getCache() {
-      return JSON.parse(localStorage.getItem('ae_testimonies') || '[]');
-    }
-
-    function saveToOfflineCache() {
+    async function saveToOfflineCache() {
       const person = document.getElementById('personName').value.trim();
       if (!person) { alert('Please enter a name.'); return; }
 
       const activeTags = Array.from(document.querySelectorAll('.tag-pill.active')).map(p => p.innerText.replace('+ ', ''));
-
-      // Combine both photos and videos for syncing
       const allMedia = [...capturedPhotos, ...capturedVideos];
 
       const entry = {
@@ -329,9 +362,7 @@
       };
 
       try {
-        const items = getCache();
-        items.push(entry);
-        localStorage.setItem('ae_testimonies', JSON.stringify(items));
+        await dbSave(entry);
 
         // Reset inputs
         document.getElementById('personName').value = '';
@@ -347,14 +378,14 @@
         capturedVideos = [];
         document.querySelectorAll('.tag-pill.active').forEach(p => toggleTag(p));
 
-        alert('Testimony and media saved offline! Go to the Cache tab when you reach Wi-Fi.');
+        alert('Testimony and media saved safely offline! Check the Cache tab.');
       } catch (err) {
-        alert('Storage limit reached on device. Please upload your pending testimonies before attaching more videos.');
+        alert('Could not save media offline: ' + err.message);
       }
     }
 
-    function renderCache() {
-      const items = getCache();
+    async function renderCache() {
+      const items = await dbGetAll();
       document.getElementById('cacheCount').innerText = items.length;
       const list = document.getElementById('cachedItemsList');
       list.innerHTML = '';
@@ -380,7 +411,7 @@
     }
 
     async function triggerSync() {
-      const items = getCache();
+      const items = await dbGetAll();
       if (items.length === 0) {
         alert('No pending stories to upload.');
         return;
@@ -391,7 +422,7 @@
       syncBtn.innerText = 'Uploading to Google Drive...';
 
       let successCount = 0;
-      const failedItems = [];
+      let failCount = 0;
 
       for (const item of items) {
         try {
@@ -401,22 +432,22 @@
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(item)
           });
+          // Remove from local database once uploaded
+          await dbDelete(item.id);
           successCount++;
         } catch (error) {
-          failedItems.push(item);
+          failCount++;
         }
       }
 
-      localStorage.setItem('ae_testimonies', JSON.stringify(failedItems));
-      renderCache();
-
+      await renderCache();
       syncBtn.disabled = false;
       syncBtn.innerHTML = '<span>Upload All (Wi-Fi)</span>';
 
-      if (failedItems.length === 0) {
+      if (failCount === 0) {
         alert(`Success! Uploaded ${successCount} story records and media directly to your Google Drive and Sheet.`);
       } else {
-        alert(`Uploaded ${successCount} stories. ${failedItems.length} failed and remain stored offline.`);
+        alert(`Uploaded ${successCount} stories. ${failCount} failed and remain stored offline.`);
       }
     }
 
