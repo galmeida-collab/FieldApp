@@ -175,7 +175,7 @@
         <div class="relative z-10 space-y-1.5">
           <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">Outreach Data</h3>
           <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
-            Physical rallies, campaigns & digital reach reports.
+            Physical outreaches, training events & digital reach reports.
           </p>
         </div>
 
@@ -318,7 +318,7 @@
       <div class="absolute inset-0 bg-gradient-to-r from-amber-950/95 via-orange-950/85 to-black/40"></div>
       <div class="relative z-10 text-left">
         <h2 class="text-xl font-black uppercase text-white">Outreach Data</h2>
-        <p class="text-[11px] text-orange-200 font-medium">Physical rallies, campaigns & digital reach</p>
+        <p class="text-[11px] text-orange-200 font-medium">Physical outreaches, training events & digital reach</p>
       </div>
       <button onclick="navigateTo('tab-home')" class="relative z-10 px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition-all">✕ Close</button>
     </div>
@@ -354,29 +354,63 @@
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Pillar</label>
           <select id="outreachPillar" onchange="handlePillarChange(this.value)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
-            <option value="Proclamation Evangelism">Proclamation Evangelism (Crusades / Rallies)</option>
-            <option value="Digital Media Evangelism">Digital Media Evangelism (YouTube, Socials)</option>
-            <option value="Leadership Development">Leadership Development (Foxes & Pastors)</option>
-            <option value="Youth & Schools Ministry">Youth & Schools Ministry</option>
+            <option value="Proclamation Evangelism">Proclamation Evangelism</option>
+            <option value="Leadership Development">Leadership Development</option>
+            <option value="Youth Enablement">Youth Enablement</option>
             <option value="Peacebuilding & Reconciliation">Peacebuilding & Reconciliation</option>
             <option value="Social Action & Upliftment">Social Action & Community Upliftment</option>
           </select>
         </div>
 
-        <!-- Strata Sector -->
+        <!-- Grouped Strata Sectors -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Strata Sector</label>
           <select id="outreachStrata" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
-            <option value="Primary Schools">Primary Schools</option>
-            <option value="High / Secondary Schools">High / Secondary Schools</option>
-            <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
-            <option value="Churches & Pastor Fraternals">Churches & Pastor Fraternals</option>
-            <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
-            <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
-            <option value="Prisons & Correctional Facilities">Prisons & Correctional Facilities</option>
-            <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare Facilities</option>
-            <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural Communities</option>
-            <option value="Digital Reach (Monthly Platform Reports)">Digital Reach (Monthly Platform Reports)</option>
+            
+            <!-- 1. Education & Institutions -->
+            <optgroup label="1. Education & Institutions">
+              <option value="Primary Schools">Primary Schools</option>
+              <option value="Secondary / High Schools">Secondary / High Schools</option>
+              <option value="Tertiary / Universities & Colleges">Tertiary / Universities & Colleges</option>
+            </optgroup>
+
+            <!-- 2. Church & Faith Community -->
+            <optgroup label="2. Church & Faith Community">
+              <option value="Church Services">Church Services</option>
+              <option value="Fraternal Meetings">Fraternal Meetings</option>
+            </optgroup>
+
+            <!-- 3. Governance, Marketplace & Society -->
+            <optgroup label="3. Governance, Marketplace & Society">
+              <option value="Civic, Business & Leadership">Civic, Business & Leadership</option>
+              <option value="Workplaces & Industry">Workplaces & Industry</option>
+              <option value="Open-Air, Markets & Taxi Ranks">Open-Air, Markets & Taxi Ranks</option>
+            </optgroup>
+
+            <!-- 4. Compassion & Specialised Care -->
+            <optgroup label="4. Compassion & Specialised Care">
+              <option value="Prisons & Correctional Facilities">Prisons & Correctional Facilities</option>
+              <option value="Hospitals & Healthcare Facilities">Hospitals & Healthcare Facilities</option>
+              <option value="Old Age Homes">Old Age Homes</option>
+              <option value="Children's Homes, Places of Safety & Orphanages">Children's Homes, Places of Safety & Orphanages</option>
+              <option value="Informal Settlements & Rural Communities">Informal Settlements & Rural Communities</option>
+            </optgroup>
+
+            <!-- 5. Training & Development -->
+            <optgroup label="5. Training & Development">
+              <option value="Conferences">Conferences</option>
+              <option value="Pastors Training">Pastors Training</option>
+              <option value="Evangelism Training">Evangelism Training</option>
+              <option value="Leadership Training">Leadership Training</option>
+              <option value="Community Development">Community Development</option>
+              <option value="General Skills Development">General Skills Development</option>
+            </optgroup>
+
+            <!-- 6. Digital Sphere -->
+            <optgroup label="6. Digital Sphere">
+              <option value="Digital Reach">Digital Reach</option>
+            </optgroup>
+
           </select>
         </div>
 
@@ -508,7 +542,7 @@
 
   <!-- Footer Versioning -->
   <footer class="py-4 text-center text-xs font-semibold text-slate-400">
-    African Enterprise South Africa • v1.3.5
+    African Enterprise South Africa • v1.3.6
   </footer>
 
   <!-- BOTTOM NAVIGATION -->
@@ -578,12 +612,19 @@
       const locationInput = document.getElementById('outreachLocation');
       const venueInput = document.getElementById('outreachVenue');
 
-      if (pillarVal === 'Digital Media Evangelism') {
-        strataSelect.value = "Digital Reach (Monthly Platform Reports)";
-        locationInput.placeholder = "e.g. All Social Channels";
-        venueInput.placeholder = "e.g. September Meta / YT Report";
+      if (pillarVal === 'Youth Enablement') {
+        strataSelect.value = "Secondary / High Schools";
+        locationInput.placeholder = "e.g. Pietermaritzburg";
+        venueInput.placeholder = "e.g. School / Youth Centre";
+      } else if (pillarVal === 'Leadership Development') {
+        strataSelect.value = "Leadership Training";
+        locationInput.placeholder = "e.g. Durban";
+        venueInput.placeholder = "e.g. Training Centre / Venue";
+      } else if (pillarVal === 'Social Action & Upliftment') {
+        strataSelect.value = "Community Development";
+        locationInput.placeholder = "e.g. Pietermaritzburg";
+        venueInput.placeholder = "e.g. Community Centre / Site";
       } else {
-        strataSelect.value = "Primary Schools";
         locationInput.placeholder = "e.g. Pietermaritzburg";
         venueInput.placeholder = "e.g. Grace Generation";
       }
@@ -1051,7 +1092,17 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('Service Worker active:', reg.scope))
+          .then(reg => {
+            reg.update();
+            reg.onupdatefound = () => {
+              const installingWorker = reg.installing;
+              installingWorker.onstatechange = () => {
+                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  window.location.reload();
+                }
+              };
+            };
+          })
           .catch(err => console.log('Service Worker error:', err));
       });
     }
