@@ -1,15 +1,23 @@
 {
-  "name": "African Enterprise Testimony Capture",
-  "short_name": "AE Capture",
-  "start_url": "index.html",
+  "name": "African Enterprise Field App",
+  "short_name": "AE Field",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#F8FAFC",
+  "background_color": "#0F172A",
   "theme_color": "#EA580C",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "AESA General Name Logo 2022.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "AESA General Name Logo 2022.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
