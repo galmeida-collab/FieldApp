@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <!-- STICKY TOP HEADER -->
+  <!-- STICKY TOP HEADER (CLEAN - NO LOCK BUTTON) -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
     <div class="max-w-md mx-auto grid grid-cols-3 items-center">
       <div class="flex items-center justify-start">
@@ -78,10 +78,7 @@
         <h1 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Mission Field Tool</h1>
       </div>
 
-      <div class="flex items-center justify-end gap-2">
-        <button onclick="lockApp()" title="Lock App" class="text-slate-400 hover:text-slate-600 p-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        </button>
+      <div class="flex items-center justify-end">
         <div id="connStatus" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           <span>Online</span>
@@ -93,6 +90,17 @@
   <!-- TAB 0: HOME / LAUNCHPAD -->
   <main id="tab-home" class="max-w-md mx-auto w-full px-4 pt-3 space-y-4">
     
+    <!-- ANDROID PWA INSTALL PROMPT BANNER (Hidden until available) -->
+    <div id="installPromptCard" class="hidden bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between gap-3">
+      <div class="text-left">
+        <h3 class="text-xs font-black uppercase tracking-wider text-orange-100">Install To Phone</h3>
+        <p class="text-[11px] text-white font-medium">Add African Enterprise Field App to your home screen.</p>
+      </div>
+      <button onclick="triggerInstallPrompt()" class="bg-white text-orange-700 hover:bg-orange-50 active:scale-95 px-3 py-2 rounded-xl text-xs font-black shadow-sm shrink-0 transition-all">
+        Install App
+      </button>
+    </div>
+
     <!-- LIVE HARVEST DASHBOARD BANNER -->
     <div class="relative overflow-hidden rounded-2xl p-4 text-white shadow-lg border border-slate-800/40">
       <img 
@@ -242,7 +250,7 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Location / Zone / Platform</label>
-          <input type="text" id="personLocation" placeholder="e.g. Pietermaritzburg or YouTube Live" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 font-medium">
+          <input type="text" id="personLocation" placeholder="e.g. Pietermaritzburg or YouTube Live" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 font-medium">
         </div>
       </div>
     </div>
@@ -591,6 +599,27 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqgqFtxXVUZknK5Ax88z1-_PtZuhVxpim7jiAEJGVei2JbiD3kHvjoflKpuj3YuaDJ/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
+    // PWA INSTALL DEFERRED EVENT HOLDER
+    let deferredInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const promptCard = document.getElementById('installPromptCard');
+      if (promptCard) promptCard.classList.remove('hidden');
+    });
+
+    async function triggerInstallPrompt() {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      if (outcome === 'accepted') {
+        const promptCard = document.getElementById('installPromptCard');
+        if (promptCard) promptCard.classList.add('hidden');
+      }
+      deferredInstallPrompt = null;
+    }
+
     function getTodayString() {
       const d = new Date();
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -659,13 +688,6 @@
       } else {
         err.classList.remove('hidden');
       }
-    }
-
-    function lockApp() {
-      localStorage.removeItem('ae_field_passcode');
-      document.getElementById('gateOverlay').classList.remove('hidden');
-      document.getElementById('gateInput').value = '';
-      document.getElementById('gateError').classList.add('hidden');
     }
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
@@ -894,7 +916,7 @@
 
     async function saveStoryOffline() {
       const passcode = localStorage.getItem('ae_field_passcode');
-      if (passcode !== EXPECTED_PASSCODE) { lockApp(); return; }
+      if (passcode !== EXPECTED_PASSCODE) { checkGateAccess(); return; }
 
       const person = document.getElementById('personName').value.trim();
       if (!person) { alert('Please enter a name.'); return; }
@@ -940,7 +962,7 @@
     // OUTREACH LOGIC
     async function saveOutreachOffline() {
       const passcode = localStorage.getItem('ae_field_passcode');
-      if (passcode !== EXPECTED_PASSCODE) { lockApp(); return; }
+      if (passcode !== EXPECTED_PASSCODE) { checkGateAccess(); return; }
 
       const ministryDate = document.getElementById('outreachDate').value || getTodayString();
       const rep = document.getElementById('outreachRep').value.trim();
