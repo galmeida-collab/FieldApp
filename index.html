@@ -4,8 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>African Enterprise - Frontline Stories</title>
+  
+  <!-- Progressive Web App Manifest (Android / Chrome) -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#EA580C">
+
+  <!-- Apple iOS Home Screen Icon & Web App Meta Tags -->
+  <link rel="apple-touch-icon" href="AESA General Name Logo 2022.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="AESA General Name Logo 2022.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="AESA General Name Logo 2022.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="AESA General Name Logo 2022.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Frontline Stories">
+
+  <!-- Browser Favicon -->
+  <link rel="icon" type="image/png" href="AESA General Name Logo 2022.png">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -20,14 +35,17 @@
   <!-- Top Header with Centred 'Mission Field Tool' -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
     <div class="max-w-md mx-auto grid grid-cols-3 items-center">
+      <!-- Left: Logo -->
       <div class="flex items-center justify-start">
         <img src="AESA General Name Logo 2022.png" alt="AE Emblem" class="h-7 w-auto object-contain" onerror="this.parentElement.innerHTML='<span class=\'font-black text-orange-600 text-base\'>AE</span>'">
       </div>
 
+      <!-- Centre: Mission Field Tool Title -->
       <div class="text-center">
         <h1 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Mission Field Tool</h1>
       </div>
 
+      <!-- Right: Status Badge -->
       <div class="flex items-center justify-end">
         <div id="connStatus" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -43,10 +61,9 @@
     <!-- Dynamic Hero Banner with Centred Large Title & Flanked Subtitle -->
     <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-md min-h-[190px] flex flex-col justify-center items-center text-center">
       <img 
-        src="hero.jpg"v=2
+        src="hero.jpg?v=3" 
         alt="Frontline Outreach" 
         class="absolute inset-0 w-full h-full object-cover object-center"
-        onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80'"
       >
       <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 via-orange-900/60 to-black/35"></div>
 
@@ -130,7 +147,7 @@
       </div>
     </div>
 
-    <!-- SECTION 3: MEDIA & SAVE -->
+    <!-- SECTION 3: MEDIA & SAVE (Separate Photo & Video Pickers) -->
     <div class="bg-white rounded-2xl border-2 border-emerald-200/90 shadow-sm overflow-hidden">
       <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3 border-b border-emerald-200 flex items-center justify-between">
         <div class="flex items-center gap-2">
