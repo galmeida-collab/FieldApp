@@ -759,34 +759,27 @@
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
 
-    // FETCH LIVE CLOUD TOTALS & BREAKDOWN FROM GOOGLE SHEETS (SAFER VERSION)
+    // FETCH LIVE CLOUD TOTALS & BREAKDOWN FROM GOOGLE SHEETS (FIXED VERSION)
     async function fetchCloudMetrics() {
-  try {
-    console.log("Fetching metrics from cloud...");
-    const response = await fetch(`${SCRIPT_URL}?passcode=AE2026`, {
-      method: 'GET',
-      redirect: 'follow' // Crucial for Google Apps Script redirects
-    });
+      try {
+        console.log("Fetching metrics from cloud...");
+        const response = await fetch(`${SCRIPT_URL}?passcode=AE2026`, {
+          method: 'GET',
+          redirect: 'follow'
+        });
 
-    const data = await response.json();
-    console.log("Received cloud data:", data);
+        const data = await response.json();
+        console.log("Received cloud data:", data);
 
-    if (data.status === "success") {
-      // Update your UI elements here with data.totals and data.breakdown
-      document.getElementById('oct-reached').innerText = data.totals.monthReached;
-      document.getElementById('oct-decisions').innerText = data.totals.monthDecisions;
-      document.getElementById('grand-reached').innerText = data.totals.yearReached;
-      document.getElementById('grand-decisions').innerText = data.totals.yearDecisions;
-      
-      // Render breakdown if container exists
-      renderMinistryBreakdown(data.breakdown);
-    } else {
-      console.error("Cloud error:", data.message);
+        if (data && data.status === "success") {
+          renderCloudMetrics(data);
+        } else {
+          console.error("Cloud error: No data received or invalid status");
+        }
+      } catch (err) {
+        console.error("Fetch failed:", err);
+      }
     }
-  } catch (err) {
-    console.error("Fetch failed:", err);
-  }
-}
 
     function renderStoredTotals() {
       try {
@@ -798,6 +791,7 @@
     }
 
     function renderCloudMetrics(data) {
+      if (!data) return;
       const totals = data.totals || {};
       const breakdown = data.breakdown || {};
       
@@ -806,16 +800,25 @@
       const monthName = totals.currentMonthName || monthNames[now.getMonth()];
       const year = totals.currentYear || now.getFullYear();
 
-      // Render Totals
-      document.getElementById('statMonthLabel').innerText = `${monthName}`;
-      document.getElementById('statYearLabel').innerText = `${year} Grand Total`;
-      document.getElementById('statMonthReached').innerText = (totals.monthReached || 0).toLocaleString();
-      document.getElementById('statMonthDecisions').innerText = (totals.monthDecisions || 0).toLocaleString();
-      document.getElementById('statYearReached').innerText = (totals.yearReached || 0).toLocaleString();
-      document.getElementById('statYearDecisions').innerText = (totals.yearDecisions || 0).toLocaleString();
+      // Render Totals safely using correct DOM IDs
+      const monthLabelEl = document.getElementById('statMonthLabel');
+      const yearLabelEl = document.getElementById('statYearLabel');
+      const monthReachedEl = document.getElementById('statMonthReached');
+      const monthDecisionsEl = document.getElementById('statMonthDecisions');
+      const yearReachedEl = document.getElementById('statYearReached');
+      const yearDecisionsEl = document.getElementById('statYearDecisions');
+
+      if (monthLabelEl) monthLabelEl.innerText = `${monthName}`;
+      if (yearLabelEl) yearLabelEl.innerText = `${year} Grand Total`;
+      if (monthReachedEl) monthReachedEl.innerText = (totals.monthReached || 0).toLocaleString();
+      if (monthDecisionsEl) monthDecisionsEl.innerText = (totals.monthDecisions || 0).toLocaleString();
+      if (yearReachedEl) yearReachedEl.innerText = (totals.yearReached || 0).toLocaleString();
+      if (yearDecisionsEl) yearDecisionsEl.innerText = (totals.yearDecisions || 0).toLocaleString();
 
       // Render Embedded Breakdown List in Open Space
       const listEl = document.getElementById('embeddedBreakdownList');
+      if (!listEl) return;
+
       if (Object.keys(breakdown).length === 0) {
         listEl.innerHTML = '<p class="text-slate-400 text-center py-2 text-[11px]">No outreach records found in cloud.</p>';
         return;
