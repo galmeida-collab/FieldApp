@@ -1115,12 +1115,32 @@
 
       const syncBtn = document.querySelector('#tab-cache button');
       syncBtn.disabled = true;
-      syncBtn.innerText = 'Uploading to Google Sheets...';
+      
+      // Transform the button into a dynamic progress bar container
+      syncBtn.innerHTML = `
+        <div class="w-full space-y-1.5 py-0.5">
+          <div class="flex justify-between items-center text-[11px] font-black uppercase text-white tracking-wider">
+            <span id="syncStatusText">Uploading Harvest Stats...</span>
+            <span id="syncPercent">0%</span>
+          </div>
+          <div class="w-full bg-orange-800/60 rounded-full h-2 overflow-hidden p-0.5 border border-white/20">
+            <div id="syncProgressBar" class="bg-white h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      `;
 
+      const totalItems = items.length;
       let successCount = 0;
       let failCount = 0;
 
-      for (const item of items) {
+      for (let i = 0; i < totalItems; i++) {
+        const item = items[i];
+        
+        const percent = Math.round(((i) / totalItems) * 100);
+        document.getElementById('syncPercent').innerText = `${percent}%`;
+        document.getElementById('syncProgressBar').style.width = `${percent}%`;
+        document.getElementById('syncStatusText').innerText = `Uploading Item ${i + 1} of ${totalItems}...`;
+
         try {
           await fetch(SCRIPT_URL, {
             method: 'POST',
@@ -1134,6 +1154,12 @@
           failCount++;
         }
       }
+
+      document.getElementById('syncPercent').innerText = '100%';
+      document.getElementById('syncProgressBar').style.width = '100%';
+      document.getElementById('syncStatusText').innerText = 'Harvest Upload Complete!';
+
+      await new Promise(resolve => setTimeout(resolve, 800));
 
       await renderCache();
       syncBtn.disabled = false;
