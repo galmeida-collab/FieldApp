@@ -1,4 +1,4 @@
-const CACHE_NAME = 'punch-field-v1.3.9';
+const CACHE_NAME = 'punch-field-v1.3.11';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -14,11 +14,10 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[ServiceWorker] Caching shell v1.3.9');
+      console.log('[ServiceWorker] Caching shell v1.3.11');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
-  // Force immediate activation without waiting for tabs/windows to close
   self.skipWaiting();
 });
 
@@ -39,9 +38,8 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch strategy: Cache-first with network fallback
+// Fetch strategy: Network-first for Google Apps Script, Cache-first for app assets
 self.addEventListener('fetch', (event) => {
-  // Bypass caching for Google Apps Script live API calls
   if (event.request.url.includes('script.google.com')) {
     event.respondWith(fetch(event.request));
     return;
@@ -54,15 +52,12 @@ self.addEventListener('fetch', (event) => {
       }
       return fetch(event.request).then((response) => {
         return caches.open(CACHE_NAME).then((cache) => {
-          // Cache fetched static files dynamically
           if (event.request.method === 'GET' && response.status === 200) {
             cache.put(event.request, response.clone());
           }
           return response;
         });
-      }).catch(() => {
-        // Fallback or offline behavior if needed
-      });
+      }).catch(() => {});
     })
   );
 });
