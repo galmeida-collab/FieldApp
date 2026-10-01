@@ -1297,36 +1297,7 @@
       }
     }
 
-    // AUTOMATIC BACKGROUND SYNC TIMER (Every 8 seconds)
-    setInterval(async () => {
-      if (!navigator.onLine) return;
-      
-      try {
-        const items = await dbGetAll();
-        if (items && items.length > 0) {
-          console.log('[AutoSync] Pending records found, initiating background upload...');
-          
-          for (const item of items) {
-            await fetch(SCRIPT_URL, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify(item)
-            });
-            await dbDelete(item.id);
-          }
-          
-          fetchLiveTotals();
-          const activeTab = document.querySelector('main:not(.hidden)');
-          if (activeTab && activeTab.id === 'tab-cache') {
-            renderCache();
-          }
-          updateHomeCacheCount();
-        }
-      } catch (err) {
-        console.log('[AutoSync] Background sync waiting for stable connection...');
-      }
-    }, 8000);
+    
 
     window.addEventListener('online', () => {
       const badge = document.getElementById('connStatus');
