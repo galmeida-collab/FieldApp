@@ -38,8 +38,11 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch strategy: Network-first for Google Apps Script, Cache-first for app assets
+// Fetch strategy: Ignore extensions, Network-first for Google Apps Script, Cache-first for assets
 self.addEventListener('fetch', (event) => {
+  // Ignore non-http requests (such as chrome-extension://)
+  if (!event.request.url.startsWith('http')) return;
+
   if (event.request.url.includes('script.google.com')) {
     event.respondWith(fetch(event.request));
     return;
