@@ -1116,7 +1116,7 @@
       const syncBtn = document.querySelector('#tab-cache button');
       syncBtn.disabled = true;
       
-      // Transform the button into a dynamic progress bar container
+      // Transform button into progress bar
       syncBtn.innerHTML = `
         <div class="w-full space-y-1.5 py-0.5">
           <div class="flex justify-between items-center text-[11px] font-black uppercase text-white tracking-wider">
@@ -1173,6 +1173,37 @@
         alert(`Uploaded ${successCount} record(s). ${failCount} failed and remain stored offline.`);
       }
     }
+
+    // AUTOMATIC BACKGROUND SYNC TIMER (Every 8 seconds)
+    setInterval(async () => {
+      if (!navigator.onLine) return;
+      
+      try {
+        const items = await dbGetAll();
+        if (items && items.length > 0) {
+          console.log('[AutoSync] Pending records found, initiating background upload...');
+          
+          for (const item of items) {
+            await fetch(SCRIPT_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(item)
+            });
+            await dbDelete(item.id);
+          }
+          
+          fetchLiveTotals();
+          const activeTab = document.querySelector('main:not(.hidden)');
+          if (activeTab && activeTab.id === 'tab-cache') {
+            renderCache();
+          }
+          updateHomeCacheCount();
+        }
+      } catch (err) {
+        console.log('[AutoSync] Background sync waiting for stable connection...');
+      }
+    }, 8000);
 
     window.addEventListener('online', () => {
       const badge = document.getElementById('connStatus');
