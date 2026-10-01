@@ -536,7 +536,7 @@
             <div class="flex items-center justify-between gap-1">
               <button type="button" onclick="stepVal('countPrayer', -1)" class="w-8 h-8 rounded-lg bg-white border border-purple-300 font-black text-purple-800 active:bg-purple-100 transition-all">-</button>
               <input type="number" id="countPrayer" value="0" min="0" class="w-16 text-center font-black text-lg text-purple-700 bg-transparent focus:outline-none">
-              <button type="button" onclick="stepVal('countPrayer', 1)" class="w-8 h-8 rounded-lg bg-white border border-purple-300 font-black text-purple-300 active:bg-purple-100 transition-all">+</button>
+              <button type="button" onclick="stepVal('countPrayer', 1)" class="w-8 h-8 rounded-lg bg-white border border-purple-300 font-black text-purple-700 active:bg-purple-100 transition-all">+</button>
             </div>
           </div>
         </div>
@@ -759,7 +759,7 @@
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
 
-    // FETCH LIVE CLOUD TOTALS & BREAKDOWN FROM GOOGLE SHEETS
+    // FETCH LIVE CLOUD TOTALS & BREAKDOWN FROM GOOGLE SHEETS (SAFER VERSION)
     async function fetchCloudMetrics() {
       if (!navigator.onLine) {
         renderStoredTotals();
@@ -770,7 +770,6 @@
 
       try {
         const url = `${SCRIPT_URL}?action=getCloudMetrics&passcode=${EXPECTED_PASSCODE}`;
-        // Using mode: 'cors' and a clean request wrapper
         const response = await fetch(url, { method: 'GET', redirect: 'follow' });
         const data = await response.json();
 
@@ -782,7 +781,6 @@
         }
       } catch (err) {
         console.log('Cloud metrics fetch error, falling back to storage:', err);
-        // Fallback to local storage cache if network blocks it
         const saved = localStorage.getItem('ae_cloud_metrics');
         if (saved) {
           renderCloudMetrics(JSON.parse(saved));
@@ -792,6 +790,15 @@
       } finally {
         if (icon) icon.classList.remove('animate-spin');
       }
+    }
+
+    function renderStoredTotals() {
+      try {
+        const data = JSON.parse(localStorage.getItem('ae_cloud_metrics') || '{}');
+        if (data.status === 'success') {
+          renderCloudMetrics(data);
+        }
+      } catch (e) {}
     }
 
     function renderCloudMetrics(data) {
