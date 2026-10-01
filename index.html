@@ -761,36 +761,32 @@
 
     // FETCH LIVE CLOUD TOTALS & BREAKDOWN FROM GOOGLE SHEETS (SAFER VERSION)
     async function fetchCloudMetrics() {
-      if (!navigator.onLine) {
-        renderStoredTotals();
-        return;
-      }
-      const icon = document.getElementById('syncIcon');
-      if (icon) icon.classList.add('animate-spin');
+  try {
+    console.log("Fetching metrics from cloud...");
+    const response = await fetch(`${SCRIPT_URL}?passcode=AE2026`, {
+      method: 'GET',
+      redirect: 'follow' // Crucial for Google Apps Script redirects
+    });
 
-      try {
-        const url = `${SCRIPT_URL}?action=getCloudMetrics&passcode=${EXPECTED_PASSCODE}`;
-        const response = await fetch(url, { method: 'GET', redirect: 'follow' });
-        const data = await response.json();
+    const data = await response.json();
+    console.log("Received cloud data:", data);
 
-        if (data.status === 'success') {
-          localStorage.setItem('ae_cloud_metrics', JSON.stringify(data));
-          renderCloudMetrics(data);
-        } else {
-          document.getElementById('embeddedBreakdownList').innerHTML = '<p class="text-amber-200 text-center py-2 text-[11px]">Passcode error or invalid cloud response.</p>';
-        }
-      } catch (err) {
-        console.log('Cloud metrics fetch error, falling back to storage:', err);
-        const saved = localStorage.getItem('ae_cloud_metrics');
-        if (saved) {
-          renderCloudMetrics(JSON.parse(saved));
-        } else {
-          document.getElementById('embeddedBreakdownList').innerHTML = '<p class="text-red-300 text-center py-2 text-[11px]">Unable to reach Google Sheet. Check connection.</p>';
-        }
-      } finally {
-        if (icon) icon.classList.remove('animate-spin');
-      }
+    if (data.status === "success") {
+      // Update your UI elements here with data.totals and data.breakdown
+      document.getElementById('oct-reached').innerText = data.totals.monthReached;
+      document.getElementById('oct-decisions').innerText = data.totals.monthDecisions;
+      document.getElementById('grand-reached').innerText = data.totals.yearReached;
+      document.getElementById('grand-decisions').innerText = data.totals.yearDecisions;
+      
+      // Render breakdown if container exists
+      renderMinistryBreakdown(data.breakdown);
+    } else {
+      console.error("Cloud error:", data.message);
     }
+  } catch (err) {
+    console.error("Fetch failed:", err);
+  }
+}
 
     function renderStoredTotals() {
       try {
