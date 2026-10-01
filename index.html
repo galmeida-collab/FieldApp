@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AESA Punch - Mobile Field App (c) 2027</title>
+  <title>Punch - Mobile Field App</title>
   
   <link rel="manifest" href="manifest.json?v=1.3.9">
   <meta name="theme-color" content="#EA580C">
@@ -67,9 +67,28 @@
     </div>
   </div>
 
+  <!-- HARVEST BREAKDOWN MODAL -->
+  <div id="harvestModal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
+      <div class="bg-gradient-to-r from-orange-600 to-amber-600 px-6 py-4 text-white flex items-center justify-between shrink-0">
+        <div>
+          <h3 class="text-base font-black uppercase tracking-wider">Ministry Area Breakdown</h3>
+          <p class="text-[11px] text-orange-100 font-medium">Detailed view of reach and decisions across sectors</p>
+        </div>
+        <button onclick="closeHarvestModal()" class="text-white hover:bg-white/20 font-bold text-xs bg-black/20 px-3 py-1.5 rounded-xl transition-all">✕ Close</button>
+      </div>
+      <div id="harvestModalContent" class="p-6 overflow-y-auto space-y-4 text-slate-800 text-xs divide-y divide-slate-100">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="p-4 bg-slate-50 border-t border-slate-200 text-center text-[11px] text-slate-500 font-semibold shrink-0">
+        African Enterprise • Live Mission Harvest Metrics
+      </div>
+    </div>
+  </div>
+
   <!-- STICKY TOP HEADER -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
-    <div class="max-w-md mx-auto grid grid-cols-3 items-center">
+    <div class="max-w-md lg:max-w-4xl mx-auto grid grid-cols-3 items-center">
       <div class="flex items-center justify-start">
         <img src="punch-icon.png" alt="AE Emblem" class="h-7 w-7 object-contain rounded-md" onerror="this.parentElement.innerHTML='<span class=\'font-black text-orange-600 text-base\'>AE</span>'">
       </div>
@@ -88,7 +107,7 @@
   </header>
 
   <!-- TAB 0: HOME / LAUNCHPAD -->
-  <main id="tab-home" class="max-w-md mx-auto w-full px-4 pt-3 space-y-4">
+  <main id="tab-home" class="max-w-md lg:max-w-4xl mx-auto w-full px-4 pt-3 space-y-4">
     
     <!-- INSTALL TO PHONE PROMPT CARD -->
     <div id="installPromptCard" class="hidden bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between gap-3">
@@ -113,51 +132,53 @@
       </div>
     </div>
 
-    <!-- LIVE HARVEST DASHBOARD BANNER -->
-    <div class="relative overflow-hidden rounded-2xl p-4 text-white shadow-lg border border-slate-800/40">
+    <!-- LIVE HARVEST DASHBOARD BANNER (Clickable & Scalable for Jumbo Screens) -->
+    <div onclick="openHarvestModal()" class="relative overflow-hidden rounded-2xl p-5 lg:p-8 text-white shadow-xl border border-slate-800/40 cursor-pointer group hover:ring-2 hover:ring-amber-400 transition-all">
       <img 
         src="hero_saflag.jpg?v=1" 
         alt="South African Flag" 
-        class="absolute inset-0 w-full h-full object-cover object-center scale-105"
+        class="absolute inset-0 w-full h-full object-cover object-center scale-105 group-hover:scale-110 transition-transform duration-700"
         onerror="this.src='hero_frontline.jpg?v=1'"
       >
-      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/65 to-black/35 backdrop-blur-[0.5px]"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/70 to-black/40 backdrop-blur-[0.5px]"></div>
 
-      <div class="relative z-10 flex items-center justify-between mb-3 border-b border-white/20 pb-2">
+      <div class="relative z-10 flex items-center justify-between mb-4 border-b border-white/20 pb-3">
         <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-[11px] font-black uppercase tracking-wider text-white drop-shadow-xs">Live Mission Harvest</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs lg:text-sm font-black uppercase tracking-wider text-white drop-shadow-xs flex items-center gap-1.5">
+            Live Mission Harvest <span class="text-[10px] bg-amber-400/90 text-slate-950 px-2 py-0.5 rounded-full font-extrabold">Tap for Breakdown ➔</span>
+          </span>
         </div>
-        <button onclick="fetchLiveTotals()" title="Refresh Numbers" class="text-[11px] font-bold text-white/90 hover:text-white flex items-center gap-1 active:scale-95 transition-all bg-black/30 hover:bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-xs border border-white/10">
-          <svg id="syncIcon" class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        <button onclick="event.stopPropagation(); fetchLiveTotals();" title="Refresh Numbers" class="text-xs font-bold text-white/90 hover:text-white flex items-center gap-1 active:scale-95 transition-all bg-black/40 hover:bg-black/60 px-3 py-1 rounded-lg backdrop-blur-xs border border-white/15">
+          <svg id="syncIcon" class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           <span>Refresh</span>
         </button>
       </div>
 
-      <div class="relative z-10 grid grid-cols-2 gap-3">
+      <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Monthly Counter -->
-        <div class="bg-black/45 backdrop-blur-md rounded-xl p-2.5 border border-white/15 shadow-inner">
-          <span id="statMonthLabel" class="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 block">Current Month</span>
-          <div class="mt-1">
-            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Total Reached</span>
-            <span id="statMonthReached" class="text-xl sm:text-2xl font-black text-white leading-none drop-shadow-xs">0</span>
+        <div class="bg-black/50 backdrop-blur-md rounded-2xl p-3.5 lg:p-5 border border-white/15 shadow-inner">
+          <span id="statMonthLabel" class="text-[11px] lg:text-xs font-extrabold uppercase tracking-wide text-amber-300 block">Current Month</span>
+          <div class="mt-2">
+            <span class="text-[10px] lg:text-xs font-extrabold uppercase text-slate-300 block">Total Reached</span>
+            <span id="statMonthReached" class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-none drop-shadow-xs">0</span>
           </div>
-          <div class="mt-2 pt-1.5 border-t border-white/15">
-            <span class="text-[10px] font-extrabold uppercase text-emerald-300 block">Decisions</span>
-            <span id="statMonthDecisions" class="text-lg sm:text-xl font-black text-emerald-200 leading-none drop-shadow-xs">0</span>
+          <div class="mt-3 pt-2 border-t border-white/15">
+            <span class="text-[10px] lg:text-xs font-extrabold uppercase text-emerald-300 block">Decisions</span>
+            <span id="statMonthDecisions" class="text-xl sm:text-2xl lg:text-3xl font-black text-emerald-200 leading-none drop-shadow-xs">0</span>
           </div>
         </div>
 
         <!-- Year-to-Date Grand Counter -->
-        <div class="bg-black/45 backdrop-blur-md rounded-xl p-2.5 border border-white/15 shadow-inner">
-          <span id="statYearLabel" class="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 block">Year to Date</span>
-          <div class="mt-1">
-            <span class="text-[10px] font-extrabold uppercase text-slate-300 block">Total Reached</span>
-            <span id="statYearReached" class="text-xl sm:text-2xl font-black text-amber-300 leading-none drop-shadow-xs">0</span>
+        <div class="bg-black/50 backdrop-blur-md rounded-2xl p-3.5 lg:p-5 border border-white/15 shadow-inner">
+          <span id="statYearLabel" class="text-[11px] lg:text-xs font-extrabold uppercase tracking-wide text-amber-300 block">Year to Date</span>
+          <div class="mt-2">
+            <span class="text-[10px] lg:text-xs font-extrabold uppercase text-slate-300 block">Total Reached</span>
+            <span id="statYearReached" class="text-2xl sm:text-3xl lg:text-4xl font-black text-amber-300 leading-none drop-shadow-xs">0</span>
           </div>
-          <div class="mt-2 pt-1.5 border-t border-white/15">
-            <span class="text-[10px] font-extrabold uppercase text-emerald-300 block">Decisions</span>
-            <span id="statYearDecisions" class="text-lg sm:text-xl font-black text-emerald-200 leading-none drop-shadow-xs">0</span>
+          <div class="mt-3 pt-2 border-t border-white/15">
+            <span class="text-[10px] lg:text-xs font-extrabold uppercase text-emerald-300 block">Decisions</span>
+            <span id="statYearDecisions" class="text-xl sm:text-2xl lg:text-3xl font-black text-emerald-200 leading-none drop-shadow-xs">0</span>
           </div>
         </div>
       </div>
@@ -170,14 +191,14 @@
     </div>
 
     <!-- SIDE-BY-SIDE DUAL HERO GRID -->
-    <div class="grid grid-cols-2 gap-3 w-full">
-      <div onclick="navigateTo('tab-stories')" class="relative overflow-hidden rounded-2xl p-4 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
+    <div class="grid grid-cols-2 lg:grid-cols-2 gap-3 w-full">
+      <div onclick="navigateTo('tab-stories')" class="relative overflow-hidden rounded-2xl p-4 lg:p-6 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
         <img src="hero_frontline.jpg?v=1" alt="Frontline Stories" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='hero.jpg?v=1'">
         <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 via-orange-900/75 to-black/45"></div>
 
         <div class="relative z-10 space-y-1.5">
           <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">Frontline Stories</h3>
-          <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
+          <p class="text-[11px] lg:text-xs text-orange-100 font-medium leading-relaxed line-clamp-3">
             Record testimonies, life encounters, and attach media.
           </p>
         </div>
@@ -188,13 +209,13 @@
         </div>
       </div>
 
-      <div onclick="navigateTo('tab-outreach')" class="relative overflow-hidden rounded-2xl p-4 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
+      <div onclick="navigateTo('tab-outreach')" class="relative overflow-hidden rounded-2xl p-4 lg:p-6 text-white shadow-md cursor-pointer hover:shadow-lg transition-all group active:scale-[0.98] border border-orange-950/20 flex flex-col justify-between min-h-[220px]">
         <img src="hero_outreach.jpg?v=1" alt="Outreach Data" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" onerror="this.src='hero2.jpeg?v=1'">
         <div class="absolute inset-0 bg-gradient-to-t from-amber-950/95 via-orange-950/80 to-black/45"></div>
 
         <div class="relative z-10 space-y-1.5">
           <h3 class="text-lg sm:text-xl font-black tracking-tight text-white leading-tight">Outreach Data</h3>
-          <p class="text-[11px] text-orange-100 font-medium leading-relaxed line-clamp-3">
+          <p class="text-[11px] lg:text-xs text-orange-100 font-medium leading-relaxed line-clamp-3">
             Physical outreaches, training events & digital reach reports.
           </p>
         </div>
@@ -222,7 +243,7 @@
   </main>
 
   <!-- TAB 1: FRONTLINE STORIES FORM -->
-  <main id="tab-stories" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
+  <main id="tab-stories" class="hidden max-w-md lg:max-w-4xl mx-auto w-full px-4 pt-3 space-y-4">
     <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md flex items-center justify-between">
       <img src="hero_frontline.jpg?v=1" alt="Frontline Stories" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.src='hero.jpg?v=1'">
       <div class="absolute inset-0 bg-gradient-to-r from-orange-950/95 via-orange-900/80 to-black/40"></div>
@@ -332,7 +353,7 @@
   </main>
 
   <!-- TAB 2: OUTREACH & REACHED DATA FORM -->
-  <main id="tab-outreach" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
+  <main id="tab-outreach" class="hidden max-w-md lg:max-w-4xl mx-auto w-full px-4 pt-3 space-y-4">
     <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md flex items-center justify-between">
       <img src="hero_outreach.jpg?v=1" alt="Outreach Data" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.src='hero2.jpeg?v=1'">
       <div class="absolute inset-0 bg-gradient-to-r from-amber-950/95 via-orange-950/85 to-black/40"></div>
@@ -372,15 +393,13 @@
 
         <!-- Official AE Ministry Areas -->
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Areas</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Ministry Area</label>
           <select id="outreachPillar" onchange="handlePillarChange(this.value)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/30">
-            <option value="Proclamation">Proclamation/Missions</option>
-            <option value="Youth/Foxfire">Youth/Foxfire</option>
-            <option value="Social Action">Social Action</option>
+            <option value="Proclamation Evangelism">Proclamation Evangelism</option>
+            <option value="Leadership Development">Leadership Development</option>
+            <option value="Youth Enablement">Youth Enablement</option>
             <option value="Peacebuilding & Reconciliation">Peacebuilding & Reconciliation</option>
-            <option value="Training">Training</option>
-            <option value="Media">Digital Media</option>
-            <option value="Other">Other</option>
+            <option value="Social Action & Upliftment">Social Action & Community Upliftment</option>
           </select>
         </div>
 
@@ -538,7 +557,7 @@
   </main>
 
   <!-- TAB 3: CACHE SYNC -->
-  <main id="tab-cache" class="hidden max-w-md mx-auto w-full px-4 pt-3 space-y-4">
+  <main id="tab-cache" class="hidden max-w-md lg:max-w-4xl mx-auto w-full px-4 pt-3 space-y-4">
     <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm text-center space-y-3">
       <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 border border-orange-200/60 shadow-xs">
         <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
@@ -563,13 +582,13 @@
   </main>
 
   <!-- Footer Versioning -->
-  <footer class="py-4 text-center text-xs font-semibold text-slate-400">&copy; 2026
-    AESA Punch Mobile Field App • v1.3.9.1
+  <footer class="py-4 text-center text-xs font-semibold text-slate-400">
+    &copy; 2026 African Enterprise • Punch Field App v1.4
   </footer>
 
   <!-- BOTTOM NAVIGATION -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40">
-    <div class="max-w-md mx-auto grid grid-cols-4 h-16">
+    <div class="max-w-md lg:max-w-4xl mx-auto grid grid-cols-4 h-16">
       <button onclick="switchTab('tab-home', this)" id="nav-btn-home" class="nav-btn flex flex-col items-center justify-center text-orange-600 font-bold transition-all group">
         <div class="p-1 rounded-xl transition-all group-active:scale-95">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -744,7 +763,7 @@
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
 
-    // RUNNING TOTALS
+    // RUNNING TOTALS & HARVEST MODAL BREAKDOWN
     function renderStoredTotals() {
       try {
         const stored = JSON.parse(localStorage.getItem('ae_outreach_totals') || '{}');
@@ -783,6 +802,79 @@
       } finally {
         if (icon) icon.classList.remove('animate-spin');
       }
+    }
+
+    async function openHarvestModal() {
+      const modal = document.getElementById('harvestModal');
+      const content = document.getElementById('harvestModalContent');
+      modal.classList.remove('hidden');
+      content.innerHTML = '<p class="text-center text-slate-400 py-6">Aggregating Ministry Area data...</p>';
+
+      try {
+        const items = await dbGetAll();
+        const outreachItems = items.filter(i => i.entryType === 'outreach');
+
+        // Group by Ministry Area & Strata
+        let breakdown = {};
+        outreachItems.forEach(item => {
+          const area = item.pillar || 'Unspecified Area';
+          const strata = item.strata || 'General';
+          if (!breakdown[area]) breakdown[area] = { totalReach: 0, decisions: 0, strataList: {} };
+          
+          const reach = (item.reached || 0) + (item.digitalReach || 0);
+          const decisions = (item.salvations || 0) + (item.recommitments || 0);
+
+          breakdown[area].totalReach += reach;
+          breakdown[area].decisions += decisions;
+
+          if (!breakdown[area].strataList[strata]) {
+            breakdown[area].strataList[strata] = { reach: 0, decisions: 0 };
+          }
+          breakdown[area].strataList[strata].reach += reach;
+          breakdown[area].strataList[strata].decisions += decisions;
+        });
+
+        if (Object.keys(breakdown).length === 0) {
+          content.innerHTML = `
+            <div class="text-center py-8 space-y-2">
+              <p class="font-bold text-slate-700">No pending offline outreach records found in local cache.</p>
+              <p class="text-[11px] text-slate-400">Sync with Google Sheets or record new outreach logs to view detailed breakdowns.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        for (const [area, data] of Object.entries(breakdown)) {
+          html += `
+            <div class="pt-3 first:pt-0 space-y-2">
+              <div class="flex justify-between items-center bg-orange-50 px-3 py-2 rounded-xl border border-orange-100">
+                <span class="font-black text-orange-950 text-xs">${area}</span>
+                <div class="flex gap-3 text-[11px] font-bold">
+                  <span class="text-slate-700">Reach: <strong class="text-slate-900">${data.totalReach.toLocaleString()}</strong></span>
+                  <span class="text-emerald-700">Decisions: <strong class="text-emerald-800">${data.decisions.toLocaleString()}</strong></span>
+                </div>
+              </div>
+              <div class="pl-3 space-y-1">
+          `;
+          for (const [strata, stats] of Object.entries(data.strataList)) {
+            html += `
+              <div class="flex justify-between items-center text-[11px] text-slate-600 py-1 border-b border-slate-50 last:border-0">
+                <span>• ${strata}</span>
+                <span class="font-semibold">Reach: ${stats.reach.toLocaleString()} | Decisions: ${stats.decisions.toLocaleString()}</span>
+              </div>
+            `;
+          }
+          html += `</div></div>`;
+        }
+        content.innerHTML = html;
+      } catch (err) {
+        content.innerHTML = '<p class="text-center text-red-500 py-6">Could not load breakdown data.</p>';
+      }
+    }
+
+    function closeHarvestModal() {
+      document.getElementById('harvestModal').classList.add('hidden');
     }
 
     function incrementLocalCounters(newReached, newDecisions, entryDateStr) {
@@ -1118,7 +1210,6 @@
       const syncBtn = document.querySelector('#tab-cache button');
       syncBtn.disabled = true;
       
-      // Transform button into progress bar
       syncBtn.innerHTML = `
         <div class="w-full space-y-1.5 py-0.5">
           <div class="flex justify-between items-center text-[11px] font-black uppercase text-white tracking-wider">
