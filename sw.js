@@ -22,57 +22,46 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Purge old versions immediately
+// Clean up old caches on activation
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('[ServiceWorker] Purging old cache:', key);
+            console.log('[ServiceWorker] Removing old cache', key);
             return caches.delete(key);
           }
         })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  self.clients.claim();
 });
 
-// Network-First for HTML/Navigations (Guarantees freshest updates when online)
+// Fetch strategy: Cache-first with network fallback
 self.addEventListener('fetch', (event) => {
-  // Let Google Apps Script API calls bypass the service worker
+  // Bypass caching for Google Apps Script live API calls
   if (event.request.url.includes('script.google.com')) {
+    event.respondWith(fetch(event.request));
     return;
   }
 
-  // If navigating or loading index.html, fetch from network FIRST
-  if (event.request.mode === 'navigate' || event.request.url.endsWith('index.html')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
-        })
-        .catch(() => caches.match(event.request) || caches.match('./index.html'))
-    );
-    return;
-  }
-
-  // Cache-First for static assets (images, logos) for fast loading
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
-      return fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
-          const clone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return networkResponse;
+      return fetch(event.request).then((response) => {
+        return caches.open(CACHE_NAME).then((cache) => {
+          // Cache fetched static files dynamically
+          if (event.request.method === 'GET' && response.status === 200) {
+            cache.put(event.request, response.clone());
+          }
+          return response;
+        });
+      }).catch(() => {
+        // Fallback or offline behavior if needed
       });
     })
   );
