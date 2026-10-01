@@ -770,28 +770,28 @@
 
       try {
         const url = `${SCRIPT_URL}?action=getCloudMetrics&passcode=${EXPECTED_PASSCODE}`;
-        const response = await fetch(url);
+        // Using mode: 'cors' and a clean request wrapper
+        const response = await fetch(url, { method: 'GET', redirect: 'follow' });
         const data = await response.json();
 
         if (data.status === 'success') {
           localStorage.setItem('ae_cloud_metrics', JSON.stringify(data));
           renderCloudMetrics(data);
+        } else {
+          document.getElementById('embeddedBreakdownList').innerHTML = '<p class="text-amber-200 text-center py-2 text-[11px]">Passcode error or invalid cloud response.</p>';
         }
       } catch (err) {
         console.log('Cloud metrics fetch error, falling back to storage:', err);
-        renderStoredTotals();
+        // Fallback to local storage cache if network blocks it
+        const saved = localStorage.getItem('ae_cloud_metrics');
+        if (saved) {
+          renderCloudMetrics(JSON.parse(saved));
+        } else {
+          document.getElementById('embeddedBreakdownList').innerHTML = '<p class="text-red-300 text-center py-2 text-[11px]">Unable to reach Google Sheet. Check connection.</p>';
+        }
       } finally {
         if (icon) icon.classList.remove('animate-spin');
       }
-    }
-
-    function renderStoredTotals() {
-      try {
-        const data = JSON.parse(localStorage.getItem('ae_cloud_metrics') || '{}');
-        if (data.status === 'success') {
-          renderCloudMetrics(data);
-        }
-      } catch (e) {}
     }
 
     function renderCloudMetrics(data) {
