@@ -810,69 +810,97 @@
       const modal = document.getElementById('harvestModal');
       const content = document.getElementById('harvestModalContent');
       modal.classList.remove('hidden');
-      content.innerHTML = '<p class="text-center text-slate-400 py-6">Aggregating Ministry Area data...</p>';
+      content.innerHTML = '<p class="text-center text-slate-400 py-6">Fetching Ministry Area breakdown from cloud...</p>';
 
+      let outreachItems = [];
+
+      // 1. Try pulling from local cache first
       try {
-        const items = await dbGetAll();
-        const outreachItems = items.filter(i => i.entryType === 'outreach');
+        const localItems = await dbGetAll();
+        outreachItems = localItems.filter(i => i.entryType === 'outreach');
+      } catch (e) {}
 
-        // Group by Ministry Area & Strata
-        let breakdown = {};
-        outreachItems.forEach(item => {
-          const area = item.pillar || 'Unspecified Area';
-          const strata = item.strata || 'General';
-          if (!breakdown[area]) breakdown[area] = { totalReach: 0, decisions: 0, strataList: {} };
-          
-          const reach = (item.reached || 0) + (item.digitalReach || 0);
-          const decisions = (item.salvations || 0) + (item.recommitments || 0);
-
-          breakdown[area].totalReach += reach;
-          breakdown[area].decisions += decisions;
-
-          if (!breakdown[area].strataList[strata]) {
-            breakdown[area].strataList[strata] = { reach: 0, decisions: 0 };
+      // 2. If online and local cache is empty, fetch full history or totals from Google Apps Script
+      if (outreachItems.length === 0 && navigator.onLine) {
+        try {
+          const url = `${SCRIPT_URL}?action=getBreakdown&passcode=${EXPECTED_PASSCODE}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.status === 'success' && data.breakdown) {
+            renderModalBreakdownHTML(data.breakdown);
+            return;
           }
-          breakdown[area].strataList[strata].reach += reach;
-          breakdown[area].strataList[strata].decisions += decisions;
-        });
+        } catch (err) {
+          console.log('Cloud breakdown fetch fallback:', err);
+        }
+      }
 
-        if (Object.keys(breakdown).length === 0) {
-          content.innerHTML = `
-            <div class="text-center py-8 space-y-2">
-              <p class="font-bold text-slate-700">No pending offline outreach records found in local cache.</p>
-              <p class="text-[11px] text-slate-400">Sync with Google Sheets or record new outreach logs to view detailed breakdowns.</p>
+      // 3. Fallback to processing whatever is currently in local cache
+      processAndRenderBreakdown(outreachItems);
+    }
+
+    function processAndRenderBreakdown(outreachItems) {
+      const content = document.getElementById('harvestModalContent');
+      let breakdown = {};
+
+      outreachItems.forEach(item => {
+        const area = item.pillar || 'Unspecified Area';
+        const strata = item.strata || 'General';
+        if (!breakdown[area]) breakdown[area] = { totalReach: 0, decisions: 0, strataList: {} };
+        
+        const reach = (item.reached || 0) + (item.digitalReach || 0);
+        const decisions = (item.salvations || 0) + (item.recommitments || 0);
+
+        breakdown[area].totalReach += reach;
+        breakdown[area].decisions += decisions;
+
+        if (!breakdown[area].strataList[strata]) {
+          breakdown[area].strataList[strata] = { reach: 0, decisions: 0 };
+        }
+        breakdown[area].strataList[strata].reach += reach;
+        breakdown[area].strataList[strata].decisions += decisions;
+      });
+
+      renderModalBreakdownHTML(breakdown);
+    }
+
+    function renderModalBreakdownHTML(breakdown) {
+      const content = document.getElementById('harvestModalContent');
+      if (!breakdown || Object.keys(breakdown).length === 0) {
+        content.innerHTML = `
+          <div class="text-center py-8 space-y-2">
+            <p class="font-bold text-slate-700">No outreach records found.</p>
+            <p class="text-[11px] text-slate-400">Record new outreach logs to view detailed breakdowns here.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      for (const [area, data] of Object.entries(breakdown)) {
+        html += `
+          <div class="pt-3 first:pt-0 space-y-2">
+            <div class="flex justify-between items-center bg-orange-50 px-3 py-2 rounded-xl border border-orange-100">
+              <span class="font-black text-orange-950 text-xs">${area}</span>
+              <div class="flex gap-3 text-[11px] font-bold">
+                <span class="text-slate-700">Reach: <strong class="text-slate-900">${(data.totalReach || 0).toLocaleString()}</strong></span>
+                <span class="text-emerald-700">Decisions: <strong class="text-emerald-800">${(data.decisions || 0).toLocaleString()}</strong></span>
+              </div>
+            </div>
+            <div class="pl-3 space-y-1">
+        `;
+        const strataObj = data.strataList || data.stratas || {};
+        for (const [strata, stats] of Object.entries(strataObj)) {
+          html += `
+            <div class="flex justify-between items-center text-[11px] text-slate-600 py-1 border-b border-slate-50 last:border-0">
+              <span>• ${strata}</span>
+              <span class="font-semibold">Reach: ${(stats.reach || stats.totalReach || 0).toLocaleString()} | Decisions: ${(stats.decisions || 0).toLocaleString()}</span>
             </div>
           `;
-          return;
         }
-
-        let html = '';
-        for (const [area, data] of Object.entries(breakdown)) {
-          html += `
-            <div class="pt-3 first:pt-0 space-y-2">
-              <div class="flex justify-between items-center bg-orange-50 px-3 py-2 rounded-xl border border-orange-100">
-                <span class="font-black text-orange-950 text-xs">${area}</span>
-                <div class="flex gap-3 text-[11px] font-bold">
-                  <span class="text-slate-700">Reach: <strong class="text-slate-900">${data.totalReach.toLocaleString()}</strong></span>
-                  <span class="text-emerald-700">Decisions: <strong class="text-emerald-800">${data.decisions.toLocaleString()}</strong></span>
-                </div>
-              </div>
-              <div class="pl-3 space-y-1">
-          `;
-          for (const [strata, stats] of Object.entries(data.strataList)) {
-            html += `
-              <div class="flex justify-between items-center text-[11px] text-slate-600 py-1 border-b border-slate-50 last:border-0">
-                <span>• ${strata}</span>
-                <span class="font-semibold">Reach: ${stats.reach.toLocaleString()} | Decisions: ${stats.decisions.toLocaleString()}</span>
-              </div>
-            `;
-          }
-          html += `</div></div>`;
-        }
-        content.innerHTML = html;
-      } catch (err) {
-        content.innerHTML = '<p class="text-center text-red-500 py-6">Could not load breakdown data.</p>';
+        html += `</div></div>`;
       }
+      content.innerHTML = html;
     }
 
     function closeHarvestModal() {
