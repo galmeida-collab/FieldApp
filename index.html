@@ -14,6 +14,67 @@
   <link rel="icon" type="image/png" href="punch-icon.png">
   <link rel="stylesheet" href="css/app.css">
   <style>
+    .app-header {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255, 255, 255, 0.86);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 30px -22px rgba(15, 23, 42, 0.45);
+    }
+    .app-header::before {
+      content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+      background: linear-gradient(90deg, #ea580c 0%, #f59e0b 55%, #4d7c0f 100%);
+    }
+    .app-header-inner {
+      max-width: 28rem; margin: 0 auto; padding: 0.8rem 1rem 0.7rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    }
+    .app-brand { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+    .app-logo { height: 38px; width: auto; flex-shrink: 0; }
+    .app-divider { width: 1px; height: 30px; background: #e2e8f0; flex-shrink: 0; }
+    .app-title-block { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; }
+    .app-title {
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #0f172a; line-height: 1.1; white-space: nowrap;
+    }
+    .app-version {
+      font-size: 10px; font-weight: 700; line-height: 1; color: #c2410c;
+      background: #fff7ed; border: 1px solid #fed7aa; border-radius: 999px; padding: 3px 7px;
+    }
+    .app-version:empty { display: none; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+      font-size: 11px; font-weight: 700; line-height: 1; padding: 7px 11px; border-radius: 999px; border: 1px solid;
+    }
+    .status-dot { width: 7px; height: 7px; border-radius: 999px; background: currentColor; }
+    .status-pill.is-online { color: #047857; background: #ecfdf5; border-color: #a7f3d0; }
+    .status-pill.is-online .status-dot { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18); }
+    .status-pill.is-offline { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
+    @media (min-width: 640px) {
+      .app-logo { height: 44px; }
+      .app-title { font-size: 0.85rem; }
+    }
+    @media (min-width: 1024px) {
+      .app-header-inner { max-width: 64rem; padding: 0.95rem 1rem 0.85rem; }
+      .app-logo { height: 48px; }
+      .app-divider { height: 34px; }
+    }
+    @media (max-width: 480px) {
+      .app-header-inner { gap: 0.5rem; padding-left: 0.875rem; padding-right: 0.875rem; }
+      .app-brand { gap: 0.6rem; }
+      .app-divider { display: none; }
+      .app-logo { height: 34px; }
+      .app-title { font-size: 0.72rem; letter-spacing: 0.04em; }
+      .status-pill { font-size: 10.5px; padding: 6px 9px; gap: 5px; }
+    }
+    @media (max-width: 370px) {
+      .app-logo { height: 30px; }
+      .app-title { font-size: 0.68rem; letter-spacing: 0.02em; }
+      .status-pill .status-text { display: none; }
+      .status-pill { padding: 7px; }
+    }
+
     .breakdown-head { background: rgba(2, 6, 23, 0.94); padding: 0.875rem 0.875rem 0.375rem; }
     .breakdown-body { padding: 0.625rem 0.875rem 0.875rem; }
 
@@ -77,22 +138,20 @@
   </div>
 
   <!-- STICKY TOP HEADER -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 shadow-sm">
-    <div class="max-w-md lg:max-w-5xl mx-auto grid grid-cols-3 items-center">
-      <div class="flex items-center justify-start">
-        <img src="punch-icon.png" alt="AE Emblem" class="h-20 w-20 object-contain rounded-md" onerror="this.parentElement.innerHTML='<span class=\'font-black text-orange-600 text-base\'>AE</span>'">
-      </div>
-
-      <div class="text-center">
-        <h1 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Mission Field Tool</h1>
-        <p id="appVersion" class="text-[10px] font-semibold text-slate-400"></p>
-      </div>
-
-      <div class="flex items-center justify-end">
-        <div id="connStatus" class="inline-flex items-center gap-1 px-4 py-3 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          <span>Online</span>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="app-brand">
+        <img src="ae-logo.png" alt="African Enterprise South Africa" class="app-logo" width="484" height="144" onerror="this.outerHTML='<span class=\'font-black text-orange-600 text-base\'>AE</span>'">
+        <span class="app-divider" aria-hidden="true"></span>
+        <div class="app-title-block">
+          <h1 class="app-title">Mission Field Tool</h1>
+          <span id="appVersion" class="app-version"></span>
         </div>
+      </div>
+
+      <div id="connStatus" class="status-pill is-online" role="status">
+        <span class="status-dot"></span>
+        <span class="status-text">Online</span>
       </div>
     </div>
   </header>
@@ -674,7 +733,7 @@
   </nav>
 
   <script>
-    const APP_VERSION = '1.5.2';
+    const APP_VERSION = '1.5.3';
     const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbww1r-T9L30MiiWIBD9pETj5egEdmrkxryUXX085C1YFR-GMnIepGu9p5p_I7ZtBNIh/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
@@ -858,7 +917,16 @@
       if (e.key === 'Escape' && document.body.classList.contains('tv-mode')) setTvMode(false);
     });
 
+    function setConnStatus(online) {
+      const badge = document.getElementById('connStatus');
+      if (!badge) return;
+      badge.classList.toggle('is-online', online);
+      badge.classList.toggle('is-offline', !online);
+      badge.querySelector('.status-text').textContent = online ? 'Online' : 'Offline';
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
+      setConnStatus(navigator.onLine);
       const versionEl = document.getElementById('appVersion');
       if (versionEl) versionEl.textContent = 'v' + APP_VERSION;
       if (localStorage.getItem('ae_tv_mode') === '1') setTvMode(true);
@@ -1633,15 +1701,11 @@
     }
 
     window.addEventListener('online', () => {
-      const badge = document.getElementById('connStatus');
-      badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
-      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Online</span>';
+      setConnStatus(true);
       fetchCloudMetrics(true);
     });
     window.addEventListener('offline', () => {
-      const badge = document.getElementById('connStatus');
-      badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-50 text-red-700 border border-red-200';
-      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span><span>Offline</span>';
+      setConnStatus(false);
       showNotice({
         tone: 'info',
         title: 'Phone is offline',

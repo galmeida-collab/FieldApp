@@ -12,8 +12,8 @@ This is a website saved to the phone home screen. It is not an App Store app and
 | Live site | https://galmeida-collab.github.io/FieldApp/ |
 | Language | English, South Africa (`en-ZA`) |
 | Team password | `AE2026` |
-| App version | `1.5.2`, shown under the title at the top of the app |
-| App cache name | `ae-field-v1.5.2` |
+| App version | `1.5.3`, shown under the title at the top of the app |
+| App cache name | `ae-field-v1.5.3` |
 | Google script in this folder | `Code.gs` server v1.4 |
 
 The copy in this folder is the working app. GitHub still has an older copy until this folder is published. The Google script that is already deployed also still has to be replaced with the `Code.gs` in this folder and published again. Until that Google step is done, phones can save records locally, and Refresh and Upload will say the office sheet refused the password.
@@ -63,7 +63,7 @@ Nothing here needs Node, npm, a database server, or a build step on Gary’s com
 | Look | Tailwind CSS v4, compiled once | `css/app.css` (about 51 KB) |
 | Type | Plus Jakarta Sans, weights 400–800, Latin and Latin Extended | `fonts/*.woff2` |
 | Phone install | Web app manifest, standalone, theme `#EA580C` | `manifest.webmanifest` |
-| Offline shell | Service worker, cache `ae-field-v1.5.2` | `sw.js` |
+| Offline shell | Service worker, cache `ae-field-v1.5.3` | `sw.js` |
 | Phone records | IndexedDB, not SQLite | database `AE_Frontline_DB` |
 | Phone settings | `localStorage` | passcode, script link, last totals |
 | Shared numbers and stories | Google Sheet | id in `Code.gs` |
@@ -96,6 +96,7 @@ manifest.webmanifest       home-screen name, icon, colours
 Code.gs                    paste this into Google Apps Script
 Onboarding.html            printable staff guide
 punch-icon.png             home-screen icon
+ae-logo.png                header logo, cropped from the brand file
 hero.jpg                   home art
 hero_frontline.jpg         Stories card art
 hero_outreach.jpg          Outreach card art
