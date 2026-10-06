@@ -25,7 +25,7 @@
     body.tv-mode #breakdownPanel,
     body.tv-mode .tv-off-only { display: none !important; }
     body.tv-mode #tab-home { max-width: none; padding: 2vh 3vw; }
-    body.tv-mode #harvestPanel { min-height: 96vh; display: flex; flex-direction: column; padding: 3vh 3vw; }
+    body.tv-mode #harvestPanel { min-height: 94vh; display: flex; flex-direction: column; padding: 3vh 3vw; }
     body.tv-mode #harvestGrid { flex: 1; grid-template-columns: minmax(0, 1fr); align-content: center; }
     body.tv-mode #statsGrid { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5vw; }
     body.tv-mode .stat-card { padding: 4vh 3vw; border-radius: 1.5rem; }
@@ -34,6 +34,11 @@
     body.tv-mode .stat-big { font-size: clamp(3rem, 8vw, 9rem); }
     body.tv-mode .stat-mid { font-size: clamp(2.25rem, 5.5vw, 6.5rem); }
     body.tv-mode .harvest-title { font-size: clamp(1rem, 1.8vw, 2rem); }
+    @media (max-width: 760px) {
+      body.tv-mode #statsGrid { grid-template-columns: minmax(0, 1fr); gap: 4vw; }
+      body.tv-mode .stat-big { font-size: clamp(2.5rem, 15vw, 6rem); }
+      body.tv-mode .stat-mid { font-size: clamp(2rem, 11vw, 4.5rem); }
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col justify-between antialiased selection:bg-orange-100 selection:text-orange-900 pb-20">
@@ -669,7 +674,7 @@
   </nav>
 
   <script>
-    const APP_VERSION = '1.5.1';
+    const APP_VERSION = '1.5.2';
     const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbww1r-T9L30MiiWIBD9pETj5egEdmrkxryUXX085C1YFR-GMnIepGu9p5p_I7ZtBNIh/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
