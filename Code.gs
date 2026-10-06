@@ -4,11 +4,13 @@
  * Handles:  doPost  = receive stories + outreach from the app
  *           doGet   = live dashboard totals
  *
- * ONE-TIME SETUP (see the steps in the report):
- *   1. Project Settings > Script properties > add  PASSCODE = (your new passcode)
- *   2. Run setup() once from the editor and approve the permissions
- *   3. Deploy > Manage deployments > Edit > New version > Deploy
+ * ONE-TIME SETUP:
+ *   1. Run setup() once from the editor and approve the permissions
+ *   2. Deploy > Manage deployments > Edit > New version > Deploy
  *      (Execute as: Me, Who has access: Anyone)
+ *   The first password the app sends is saved as PASSCODE.
+ *   After that, every phone must send that same password.
+ *   You can still set it yourself: Project Settings > Script properties > PASSCODE.
  */
 
 const CFG = {
@@ -44,8 +46,21 @@ function outreachSheet_() {
 }
 
 function passcodeOk_(p) {
-  const real = PropertiesService.getScriptProperties().getProperty('PASSCODE');
-  return !!real && String(p || '') === real;
+  var props = PropertiesService.getScriptProperties();
+  var real = props.getProperty('PASSCODE');
+  var given = String(p || '').trim();
+  if (real) return given === real;
+  if (given.length < 4 || given.length > 80) return false;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    real = props.getProperty('PASSCODE');
+    if (real) return given === real;
+    props.setProperty('PASSCODE', given);
+    return true;
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 // Text safe for a sheet cell: trims, limits length, blocks formula injection
@@ -148,7 +163,6 @@ function doPost(e) {
     else saveStory_(d, id, savedFiles);
 
     logAdd_(id, d.entryType);
-    CacheService.getScriptCache().remove('metrics');
     return json_({ status: 'success', id: id });
 
   } catch (err) {
@@ -211,10 +225,6 @@ function doGet(e) {
     if (!e || !e.parameter || !passcodeOk_(e.parameter.passcode)) {
       return json_({ status: 'error', message: 'Unauthorized' });
     }
-    var cache = CacheService.getScriptCache();
-    var hit = cache.get('metrics');
-    if (hit) return ContentService.createTextOutput(hit).setMimeType(ContentService.MimeType.JSON);
-
     var ss = ss_();
     var rows = outreachSheet_().getDataRange().getValues();
     var tz = ss.getSpreadsheetTimeZone();
@@ -254,7 +264,6 @@ function doGet(e) {
         monthReached: mR, monthDecisions: mD, yearReached: yR, yearDecisions: yD },
       breakdown: breakdown
     });
-    cache.put('metrics', out, 60);
     return ContentService.createTextOutput(out).setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return json_({ status: 'error', message: String(err) });
