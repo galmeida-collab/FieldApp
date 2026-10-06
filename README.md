@@ -160,11 +160,11 @@ Clearing the browser site data, or deleting the home-screen app in a way that cl
 
 ## Google Sheet
 
-Spreadsheet id: `1m9pj2wZuDfjHjqi1_BGuNuYgIz3KkuTnu5tVz_MjRG8`
+Sheet link: https://docs.google.com/spreadsheets/d/1m9pj2wZuDfjHjqi1_BGuNuYgIz3KkuTnu5tVz_MjRG8/edit?gid=1735386845#gid=1735386845
 
 | Tab | Written by | Contents |
 |---|---|---|
-| First tab, gid 0 | outreach upload | One row per outreach record, columns A–P |
+| Tab gid 1735386845 | outreach upload | One row per outreach record, columns A–P |
 | `Stories` | story upload | One row per story. Created by `setup()` if it is missing |
 | `_Received` | every successful upload | Hidden list of record ids, so the same upload is not written twice |
 

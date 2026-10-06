@@ -15,7 +15,7 @@
 
 const CFG = {
   SPREADSHEET_ID: '1m9pj2wZuDfjHjqi1_BGuNuYgIz3KkuTnu5tVz_MjRG8',
-  OUTREACH_GID: 0,                       // the first tab (gid=0) holds outreach rows A-P
+  OUTREACH_GID: 1735386845,             // outreach tab opened by the shared Sheet link
   STORIES_TAB: 'Stories',
   LOG_TAB: '_Received',                  // hidden tab used to ignore duplicate uploads
   MEDIA_FOLDER_ID: '11EAdLK1Wg82pTDB5dLJJhXWWSl0QSDqN',   // your existing Drive folder for photos and videos
