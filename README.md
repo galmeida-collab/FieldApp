@@ -12,8 +12,8 @@ This is a website saved to the phone home screen. It is not an App Store app and
 | Live site | https://galmeida-collab.github.io/FieldApp/ |
 | Language | English, South Africa (`en-ZA`) |
 | Team password | `AE2026` |
-| App version | `1.5.3`, shown under the title at the top of the app |
-| App cache name | `ae-field-v1.5.3` |
+| App version | `1.5.4`, shown under the title at the top of the app |
+| App cache name | `ae-field-v1.5.4` |
 | Google script in this folder | `Code.gs` server v1.4 |
 
 The copy in this folder is the working app. GitHub still has an older copy until this folder is published. The Google script that is already deployed also still has to be replaced with the `Code.gs` in this folder and published again. Until that Google step is done, phones can save records locally, and Refresh and Upload will say the office sheet refused the password.
@@ -63,7 +63,7 @@ Nothing here needs Node, npm, a database server, or a build step on Gary’s com
 | Look | Tailwind CSS v4, compiled once | `css/app.css` (about 51 KB) |
 | Type | Plus Jakarta Sans, weights 400–800, Latin and Latin Extended | `fonts/*.woff2` |
 | Phone install | Web app manifest, standalone, theme `#EA580C` | `manifest.webmanifest` |
-| Offline shell | Service worker, cache `ae-field-v1.5.3` | `sw.js` |
+| Offline shell | Service worker, cache `ae-field-v1.5.4` | `sw.js` |
 | Phone records | IndexedDB, not SQLite | database `AE_Frontline_DB` |
 | Phone settings | `localStorage` | passcode, script link, last totals |
 | Shared numbers and stories | Google Sheet | id in `Code.gs` |
@@ -119,7 +119,7 @@ Bottom bar, left to right:
 | Outreach | One outreach count for a place and a date |
 | Cache | Records still on this phone, and Upload |
 
-**TV mode** is the small TV button beside Refresh on Home. It hides everything except the month and year number cards, makes them large, goes full screen where the browser allows it, and refreshes the totals every 5 minutes. Tap **Exit TV**, or press Escape, to go back. The choice is remembered on that screen, so a smart TV reopens in TV mode. The Ministry Area Breakdown keeps its heading fixed at the top while its list scrolls.
+**TV mode** is the small TV button beside Refresh on Home. It hides everything except the month and year number cards, keeps them side by side at every screen width (including a phone cast to a TV), sizes the numbers to fit each card, goes full screen where the browser allows it, and refreshes the totals every 5 minutes. Tap **Exit TV**, or press Escape, to go back. The choice is remembered on that screen, so a smart TV reopens in TV mode. The Ministry Area Breakdown keeps its heading fixed at the top while its list scrolls.
 
 The first screen asks for the team password. Four or more characters are accepted and stored on that phone. Google still has to accept the same word. If it does not, a popup explains it in plain language and shows two boxes: **Team password** and **Office sheet link**, plus **Connect**.
 
