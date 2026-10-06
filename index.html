@@ -245,7 +245,7 @@
         <div id="breakdownPanel" class="lg:col-span-7 bg-black/65 backdrop-blur-md rounded-xl border border-white/15 shadow-inner max-h-[300px] overflow-y-auto">
           <div class="breakdown-head sticky top-0 z-10 flex items-center justify-between border-b border-white/15">
             <span class="text-[11px] font-black uppercase tracking-wider text-amber-300">Ministry Area Breakdown</span>
-            <span class="text-[9px] text-slate-300 font-semibold">Live Cloud Sync</span>
+            <span id="breakdownScope" class="text-[9px] text-slate-300 font-semibold">This year</span>
           </div>
           <div id="embeddedBreakdownList" class="breakdown-body space-y-2 text-xs">
             <p class="text-slate-400 text-center py-4 text-[11px]">Loading cloud metrics...</p>
@@ -728,7 +728,7 @@
   </nav>
 
   <script>
-    const APP_VERSION = '1.5.4';
+    const APP_VERSION = '1.5.5';
     const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbww1r-T9L30MiiWIBD9pETj5egEdmrkxryUXX085C1YFR-GMnIepGu9p5p_I7ZtBNIh/exec";
     const EXPECTED_PASSCODE = "AE2026";
 
@@ -942,6 +942,14 @@
       const versionEl = document.getElementById('appVersion');
       if (versionEl) versionEl.textContent = 'v' + APP_VERSION;
       if (localStorage.getItem('ae_tv_mode') === '1') setTvMode(true);
+      let openYear = new Date().getFullYear();
+      setInterval(() => {
+        const yearNow = new Date().getFullYear();
+        if (yearNow === openYear) return;
+        openYear = yearNow;
+        renderStoredTotals();
+        fetchCloudMetrics(false);
+      }, 60000);
     });
 
     window.addEventListener('DOMContentLoaded', checkGateAccess);
@@ -1161,11 +1169,35 @@
       }
     }
 
+    const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    // The saved copy is only for the screen. A new year shows zero until Refresh
+    // gets this year's rows. The saved copy itself is left as it was.
+    function totalsForThisYear(data) {
+      if (!data || data.status !== 'success') return null;
+      const totals = data.totals || {};
+      const reportedYear = Number(totals.currentYear);
+      const now = new Date();
+      if (!reportedYear || reportedYear >= now.getFullYear()) return data;
+      return {
+        status: 'success',
+        totals: {
+          currentMonthName: MONTH_NAMES[now.getMonth()],
+          currentYear: now.getFullYear(),
+          monthReached: 0,
+          monthDecisions: 0,
+          yearReached: 0,
+          yearDecisions: 0
+        },
+        breakdown: {}
+      };
+    }
+
     function renderStoredTotals() {
       try {
-        const data = JSON.parse(localStorage.getItem('ae_cloud_metrics') || '{}');
-        if (data.status === 'success') {
-          renderCloudMetrics(data);
+        const view = totalsForThisYear(JSON.parse(localStorage.getItem('ae_cloud_metrics') || '{}'));
+        if (view) {
+          renderCloudMetrics(view);
           return true;
         }
       } catch (e) {}
@@ -1178,8 +1210,7 @@
       const breakdown = data.breakdown || {};
       
       const now = new Date();
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      const monthName = totals.currentMonthName || monthNames[now.getMonth()];
+      const monthName = totals.currentMonthName || MONTH_NAMES[now.getMonth()];
       const year = totals.currentYear || now.getFullYear();
 
       // Render Totals safely using correct DOM IDs
@@ -1191,7 +1222,9 @@
       const yearDecisionsEl = document.getElementById('statYearDecisions');
 
       if (monthLabelEl) monthLabelEl.innerText = `${monthName}`;
-      if (yearLabelEl) yearLabelEl.innerText = `${year} Grand Total`;
+      if (yearLabelEl) yearLabelEl.innerText = `${year} to date`;
+      const scopeEl = document.getElementById('breakdownScope');
+      if (scopeEl) scopeEl.textContent = `${year} only`;
       if (monthReachedEl) monthReachedEl.innerText = (totals.monthReached || 0).toLocaleString();
       if (monthDecisionsEl) monthDecisionsEl.innerText = (totals.monthDecisions || 0).toLocaleString();
       if (yearReachedEl) yearReachedEl.innerText = (totals.yearReached || 0).toLocaleString();
@@ -1203,7 +1236,7 @@
       if (!listEl) return;
 
       if (Object.keys(breakdown).length === 0) {
-        listEl.innerHTML = '<p class="text-slate-400 text-center py-2 text-[11px]">No outreach records found in cloud.</p>';
+        listEl.innerHTML = `<p class="text-slate-400 text-center py-2 text-[11px]">No outreach yet in ${esc(year)}. Earlier years are still in the office sheet.</p>`;
         return;
       }
 

@@ -241,7 +241,7 @@ function doGet(e) {
       var r = rows[i];
       var d = r[COL.DATE] instanceof Date ? r[COL.DATE] : new Date(r[COL.DATE]);
       if (isNaN(d.getTime())) continue;            // skip undated rows rather than guess
-      if (part(d, 'yyyy') !== curYear) continue;   // current year only
+      if (part(d, 'yyyy') !== curYear) continue;   // screen starts at zero on 1 January; the row stays in the sheet
 
       var reach = (Number(r[COL.REACHED]) || 0) + (Number(r[COL.DIGITAL]) || 0);
       var dec = (Number(r[COL.SALV]) || 0) + (Number(r[COL.RECOM]) || 0);

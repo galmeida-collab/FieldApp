@@ -12,8 +12,8 @@ This is a website saved to the phone home screen. It is not an App Store app and
 | Live site | https://galmeida-collab.github.io/FieldApp/ |
 | Language | English, South Africa (`en-ZA`) |
 | Team password | `AE2026` |
-| App version | `1.5.4`, shown under the title at the top of the app |
-| App cache name | `ae-field-v1.5.4` |
+| App version | `1.5.5`, shown under the title at the top of the app |
+| App cache name | `ae-field-v1.5.5` |
 | Google script in this folder | `Code.gs` server v1.4 |
 
 The copy in this folder is the working app. GitHub still has an older copy until this folder is published. The Google script that is already deployed also still has to be replaced with the `Code.gs` in this folder and published again. Until that Google step is done, phones can save records locally, and Refresh and Upload will say the office sheet refused the password.
@@ -51,7 +51,7 @@ Home, Refresh
 
 Saving never sends the record by itself. Upload is the only send. The phone deletes its copy only after the script returns `status: "success"` and the same record id. A repeat of an id the script has already stored is also treated as success, so a retry does not create a second row. If the script refuses the password, the phone is offline, or the reply is anything else, the record stays in Cache.
 
-Home shows combined totals only: people reached and decisions for the current calendar month and the current calendar year, plus a breakdown by ministry area and strata. Full stories, notes, and files are not downloaded onto every phone. Those stay in the Sheet and Drive for comms.
+Home shows combined totals only: people reached and decisions for the current calendar month and the current calendar year, plus a breakdown by ministry area and strata. On 1 January those totals start again at zero on the screen. The Sheet keeps every earlier year. Nothing is deleted. Full stories, notes, and files are not downloaded onto every phone. Those stay in the Sheet and Drive for comms.
 
 ## Stack
 
@@ -63,7 +63,7 @@ Nothing here needs Node, npm, a database server, or a build step on Gary’s com
 | Look | Tailwind CSS v4, compiled once | `css/app.css` (about 51 KB) |
 | Type | Plus Jakarta Sans, weights 400–800, Latin and Latin Extended | `fonts/*.woff2` |
 | Phone install | Web app manifest, standalone, theme `#EA580C` | `manifest.webmanifest` |
-| Offline shell | Service worker, cache `ae-field-v1.5.4` | `sw.js` |
+| Offline shell | Service worker, cache `ae-field-v1.5.5` | `sw.js` |
 | Phone records | IndexedDB, not SQLite | database `AE_Frontline_DB` |
 | Phone settings | `localStorage` | passcode, script link, last totals |
 | Shared numbers and stories | Google Sheet | id in `Code.gs` |
@@ -197,7 +197,7 @@ Story columns: Timestamp, Ministry Date, Person, Location, Reporter, Themes, Lif
 
 Counts are whole numbers. Zero and anything that is not a positive number are stored as 0. Text is trimmed. A cell that would start with `=`, `+`, `-`, or `@` is prefixed with a quote so it cannot run as a formula. Story narrative is limited to 20,000 characters. Other text is limited to 5,000, and shorter fields have their own limits in `Code.gs`.
 
-Dates are counted in the spreadsheet’s own timezone. A row with no usable date is skipped by Refresh. Only the current calendar year is included in the home totals.
+Dates are counted in the spreadsheet’s own timezone. Set that timezone to (GMT+02:00) Harare / Pretoria, so 1 January is midnight in South Africa. A row with no usable date is skipped by Refresh. From 1 January the home screen counts only the new calendar year, so the month, the year to date, and the area breakdown show zero until the first outreach of that year. Rows from earlier years stay in the Sheet, unchanged.
 
 ## Google Drive
 
